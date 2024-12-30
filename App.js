@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+
+// Pages
 import LoginPage from './Pages/LoginPage/LoginPage';
 import Home from './Pages/Home';
 import DriverComponent from './Pages/DriverInfo';
@@ -24,15 +27,16 @@ import AddMaintenanceStationComponent from './Pages/ServiceStationPages/AddMaint
 import VehiclesComponent from './Pages/VehiclePages/Vehicles';
 import VehicleViewComponent from './Pages/VehiclePages/VehicleView';
 import AddVehicleComponent from './Pages/VehiclePages/AddVehicle';
-import Navbar from './Pages/Navbar/NavBar';
 
+// Navigation Setup
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
+// Drawer Navigation for Mobile
 const DrawerNav = () => (
-  <Drawer.Navigator initialRouteName="Home">
+  <Drawer.Navigator initialRouteName="Home" drawerType="permanent">
     <Drawer.Screen name="Home" component={Home} />
-    <Drawer.Screen name="Drivers" component={DriverComponent}/>
+    <Drawer.Screen name="Drivers" component={DriverComponent} />
     <Drawer.Screen name="Clients" component={ClientComponent} />
     <Drawer.Screen name="Orders" component={OrderComponent} />
     <Drawer.Screen name="Shipments" component={ShipmentsComponent} />
@@ -44,7 +48,56 @@ const DrawerNav = () => (
   </Drawer.Navigator>
 );
 
+// Web Side Menu Layout
+const WebSideMenuLayout = ({ navigation }) => {
+  const [activeScreen, setActiveScreen] = useState('Home');
+
+  const screens = [
+    { name: 'Home', component: Home },
+    { name: 'Drivers', component: DriverComponent },
+    { name: 'Clients', component: ClientComponent },
+    { name: 'Orders', component: OrderComponent },
+    { name: 'Shipments', component: ShipmentsComponent },
+    { name: 'Vehicles', component: VehiclesComponent },
+    { name: 'Fuel Stations', component: FuelStationsComponent },
+    { name: 'Fuel Logs', component: FuelLogComponent },
+    { name: 'Maintenance Stations', component: MaintenanceStationsComponent },
+    { name: 'Maintenance Records', component: MaintenanceRecordComponent },
+  ];
+
+  const ActiveComponent = screens.find(screen => screen.name === activeScreen).component;
+
+  return (
+    <View style={styles.webContainer}>
+      {/* Side Menu (Persistent) */}
+      <View style={styles.sideMenu}>
+        {screens.map(screen => (
+          <TouchableOpacity
+            key={screen.name}
+            style={[
+              styles.menuItem,
+              activeScreen === screen.name && styles.activeMenuItem,
+            ]}
+            onPress={() => setActiveScreen(screen.name)}
+          >
+            <Text style={styles.menuText}>{screen.name}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Active Screen */}
+      <View style={styles.activeScreen}>
+        <ActiveComponent />
+      </View>
+    </View>
+  );
+};
+
+// Main App Component
 const App = () => {
+  const isWeb = Platform.OS === 'web';
+  const screenWidth = Dimensions.get('window').width;
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginPage">
@@ -58,7 +111,7 @@ const App = () => {
         {/* Main Navigation */}
         <Stack.Screen
           name="Home"
-          component={DrawerNav}
+          component={isWeb && screenWidth > 768 ? WebSideMenuLayout : DrawerNav}
           options={{ headerShown: false }}
         />
 
@@ -126,5 +179,35 @@ const App = () => {
     </NavigationContainer>
   );
 };
+
+// Styles
+const styles = StyleSheet.create({
+  webContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  sideMenu: {
+    width: 250,
+    backgroundColor: '#f4f4f4',
+    padding: 10,
+    borderRightWidth: 1,
+    borderRightColor: '#ddd',
+  },
+  menuItem: {
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  activeMenuItem: {
+    backgroundColor: '#007bff',
+  },
+  menuText: {
+    color: '#333',
+  },
+  activeScreen: {
+    flex: 1,
+    padding: 10,
+  },
+});
 
 export default App;
