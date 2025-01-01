@@ -1,5 +1,5 @@
 class Vehicle {
-      constructor(vehicleId, licencePlateNum, model, year, capacity, mileage, maintenanceStatus, assignedDriver) {
+      constructor(vehicleId, licencePlateNum, model, year, capacity, mileage, maintenanceStatus, assignedOperator) {
         this._vehicleId = vehicleId;
         this._licencePlateNum = licencePlateNum;
         this._model = model;
@@ -7,7 +7,7 @@ class Vehicle {
         this._capacity = capacity;
         this._milage = mileage;
         this._maintenanceStatus = maintenanceStatus;
-        this._assignedDriver = assignedDriver;
+        this._assignedOperator = assignedOperator;
       }
     
       // Getters
@@ -38,8 +38,8 @@ class Vehicle {
         return this._maintenanceStatus;
       }
     
-      get assignedDriver() {
-        return this._assignedDriver;
+      get assignedOperator() {
+        return this._assignedOperator;
       }
     
       // Setters
@@ -78,7 +78,7 @@ class Vehicle {
         this._maintenanceStatus = maintenanceStatus;
       }
     
-      set assignedDriver(assignedDriver) {
-        this._assignedDriver = assignedDriver;
+      set assignedOperator(assignedOperator) {
+        this._assignedOperator = assignedOperator;
       }
     }

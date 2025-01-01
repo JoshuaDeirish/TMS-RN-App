@@ -6,8 +6,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 // Pages
 import LoginPage from './Pages/LoginPage/LoginPage';
-import Home from './Pages/Home';
-import DriverComponent from './Pages/DriverInfo';
+import Dashboard from './Pages/Dashboard';
+import OperatorComponent from './Pages/DriverInfo';
 import ShipmentsComponent from './Pages/Shipments';
 import ShipmentViewComponent from './Pages/ShipmentView';
 import ClientComponent from './Pages/Clients';
@@ -34,9 +34,9 @@ const Drawer = createDrawerNavigator();
 
 // Drawer Navigation for Mobile
 const DrawerNav = () => (
-  <Drawer.Navigator initialRouteName="Home" drawerType="permanent">
-    <Drawer.Screen name="Home" component={Home} />
-    <Drawer.Screen name="Drivers" component={DriverComponent} />
+  <Drawer.Navigator initialRouteName="Dashboard" drawerType="permanent">
+    <Drawer.Screen name="Dashboard" component={Dashboard} />
+    <Drawer.Screen name="Operators" component={OperatorComponent} />
     <Drawer.Screen name="Clients" component={ClientComponent} />
     <Drawer.Screen name="Orders" component={OrderComponent} />
     <Drawer.Screen name="Shipments" component={ShipmentsComponent} />
@@ -50,11 +50,11 @@ const DrawerNav = () => (
 
 // Web Side Menu Layout
 const WebSideMenuLayout = ({ navigation }) => {
-  const [activeScreen, setActiveScreen] = useState('Home');
+  const [activeScreen, setActiveScreen] = useState('Dashboard');
 
   const screens = [
-    { name: 'Home', component: Home },
-    { name: 'Drivers', component: DriverComponent },
+    { name: 'Dashboard', component: Dashboard },
+    { name: 'Operators', component: OperatorComponent },
     { name: 'Clients', component: ClientComponent },
     { name: 'Orders', component: OrderComponent },
     { name: 'Shipments', component: ShipmentsComponent },
@@ -110,7 +110,7 @@ const App = () => {
 
         {/* Main Navigation */}
         <Stack.Screen
-          name="Home"
+          name="Dashboard"
           component={isWeb && screenWidth > 768 ? WebSideMenuLayout : DrawerNav}
           options={{ headerShown: false }}
         />

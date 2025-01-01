@@ -1,18 +1,18 @@
 import User from "./User"
 
-class Driver extends User {
-    constructor(userID, first_name, last_name, role, email, phoneNumber, driverID, license_Number, routeStatus) {
+class Operator extends User {
+    constructor(userID, first_name, last_name, role, email, phoneNumber, operatorID, license_Number, routeStatus) {
         super(userID, first_name, last_name, role, email, phoneNumber);
-        this._driverID = driverID;
+        this._operatorID = operatorID;
         this._license_Number = license_Number;
         this._routeStatus = routeStatus;
     }
 
-    get driverID() {
-        return this._driverID;
+    get operatorID() {
+        return this._operatorID;
     }
-    set driverID(value) {
-        this._driverID = value;
+    set operatorID(value) {
+        this._operatorID = value;
     }
 
     get license_Number() {
@@ -41,4 +41,4 @@ class Driver extends User {
 }
 
 
-export default Driver;
+export default Operator;

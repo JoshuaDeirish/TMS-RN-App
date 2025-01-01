@@ -1,10 +1,11 @@
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
- 
 
-const OperatorComponent = () => {
+const Dashboard = () => {
+
     return (
         <View>
-            <Text style={styles.text}>Operator Page Under Development</Text>
+            <Text style={styles.text}>Dashboard Under Development</Text>
         </View>
     );
 };
@@ -14,4 +15,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default OperatorComponent;
+export default Dashboard;

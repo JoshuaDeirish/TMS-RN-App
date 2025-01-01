@@ -19,7 +19,7 @@ const LoginPage = () => {
         Alert.alert('Error', 'Please enter both username and password.');
       } else {
         Alert.alert('Login Success', `Welcome, ${username}!`);
-        navigation.navigate('Home'); // Navigate to Drivers component
+        navigation.navigate('Dashboard'); // Navigate to Drivers component
       }
     };
 
