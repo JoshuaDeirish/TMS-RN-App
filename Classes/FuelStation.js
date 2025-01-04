@@ -1,8 +1,8 @@
 class FuelStation {
-      constructor(stationId, name, address, phoneNumber, website) {
+      constructor(stationId, name, location, phoneNumber, website) {
         this._stationId = stationId;
         this._name = name;
-        this._address = address;
+        this.location = location;
         this._phoneNumber = phoneNumber;
         this._website = website;
       }
@@ -16,8 +16,8 @@ class FuelStation {
         return this._name;
       }
     
-      get address() {
-        return this._address;
+      get location() {
+        return this.location;
       }
     
       get phoneNumber() {
@@ -37,8 +37,8 @@ class FuelStation {
         this._name = name;
       }
     
-      set address(address) {
-        this._address = address;
+      set location(location) {
+        this.location = location;
       }
     
       set phoneNumber(phoneNumber) {

@@ -1,9 +1,9 @@
 class MaintenanceStation {
-      constructor(stationId, name, address, type, phoneNumber, website) {
+      constructor(stationId, name, location, type, phoneNumber, website) {
         this._stationId = stationId;
         this._name = name;
-        this._address = address;
-        this._type = type; //mechanic or dealership mechanic etc
+        this.location = location;
+        this._type = type; 
         this._phoneNumber = phoneNumber;
         this._website = website;
       }
@@ -17,8 +17,8 @@ class MaintenanceStation {
         return this._name;
       }
     
-      get address() {
-        return this._address;
+      get location() {
+        return this.location;
       }
     
       get type() {
@@ -42,8 +42,8 @@ class MaintenanceStation {
         this._name = name;
       }
     
-      set address(address) {
-        this._address = address;
+      set location(location) {
+        this.location = location;
       }
 
       //TODO
