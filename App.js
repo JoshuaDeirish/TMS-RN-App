@@ -27,6 +27,7 @@ import AddMaintenanceStationComponent from './Pages/ServiceStationPages/AddMaint
 import VehiclesComponent from './Pages/VehiclePages/Vehicles';
 import VehicleViewComponent from './Pages/VehiclePages/VehicleView';
 import AddVehicleComponent from './Pages/VehiclePages/AddVehicle';
+import TestPage from './Pages/TestPage';
 
 // Navigation Setup
 const Stack = createStackNavigator();
@@ -45,6 +46,7 @@ const DrawerNav = () => (
     <Drawer.Screen name="Fuel Logs" component={FuelLogComponent} />
     <Drawer.Screen name="Maintenance Stations" component={MaintenanceStationsComponent} />
     <Drawer.Screen name="Maintenance Records" component={MaintenanceRecordComponent} />
+    <Drawer.Screen name = "Test Page" component={TestPage} />
   </Drawer.Navigator>
 );
 
@@ -63,6 +65,7 @@ const WebSideMenuLayout = ({ navigation }) => {
     { name: 'Fuel Logs', component: FuelLogComponent },
     { name: 'Maintenance Stations', component: MaintenanceStationsComponent },
     { name: 'Maintenance Records', component: MaintenanceRecordComponent },
+    {name: 'Test Page', component: TestPage},
   ];
 
   const ActiveComponent = screens.find(screen => screen.name === activeScreen).component;
@@ -175,6 +178,12 @@ const App = () => {
           component={AddMaintenanceStationComponent}
           options={{ title: 'Add Maintenance Station' }}
         />
+        <Stack.Screen 
+          name="TestPage"
+          component={TestPage}
+          options={{title: 'Test Page'}}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
