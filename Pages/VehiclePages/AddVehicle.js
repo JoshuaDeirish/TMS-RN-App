@@ -23,6 +23,35 @@ const AddVehicleComponent = () => {
   const [maintenanceStatus, setMaintenanceStatus] = useState("");
   const [assignedDriver, setAssignedDriver] = useState("");
 
+  const addVehicle = async () => {
+    const vehicleData ={
+      id: vehicleId,
+      licensePlateNumber: licencePlateNum,
+      model,
+      year,
+      capacity,
+      maintenance: maintenanceStatus,
+      assignedOperator: assignedDriver
+    };
+    try{
+      const response = await fetch("http://127.0.0.1:8000/api/vehicles/create/", {
+        method: "POST",
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(vehicleData),
+      });
+      const data = await response.json()
+      console.log(data);
+
+    }catch(err){
+      console.log(err);
+    }
+
+
+    
+  }
+
   // Function to handle form submission
   const handleAddVehicle = () => {
     if (
@@ -54,7 +83,6 @@ const AddVehicleComponent = () => {
     // Navigate back to the Vehicles list
     navigation.goBack();
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -107,7 +135,7 @@ const AddVehicleComponent = () => {
         />
 
         {/* Submit Button */}
-        <TouchableOpacity style={styles.button} onPress={handleAddVehicle}>
+        <TouchableOpacity style={styles.button} onPress={addVehicle}>
           <Text style={styles.buttonText}>Save Vehicle</Text>
         </TouchableOpacity>
 

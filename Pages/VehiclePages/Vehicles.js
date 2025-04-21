@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,10 +20,26 @@ const sampleVehicles = [
 
 const VehiclesComponent = () => {
   const [filter, setFilter] = useState("All");
+  const [vehicles, setVehicle] = useState([]);
   const navigation = useNavigation();
 
+    useEffect(() => {
+      fetchVehicle();
+    }, []);
+  
+    const fetchVehicle = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/vehicles/");
+        const data = await response.json();
+        setVehicle(data);
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
   // Filter logic
-  const filteredVehicles = sampleVehicles.filter((vehicle) => {
+  const filteredVehicles = vehicles.filter((vehicle) => {
     if (filter === "Good") return vehicle.maintenanceStatus === "Good";
     if (filter === "Needs Maintenance") return vehicle.maintenanceStatus === "Needs Maintenance";
     return true; // Default: show all vehicles
@@ -35,10 +51,10 @@ const VehiclesComponent = () => {
       style={styles.row}
       onPress={() => navigation.navigate("VehicleViewComponent", { vehicle: item })}
     >
-      <Text style={styles.cell}>{item.vehicleId}</Text>
-      <Text style={styles.cell}>{item.licencePlateNum}</Text>
+      <Text style={styles.cell}>{item.id}</Text>
+      <Text style={styles.cell}>{item.licensePlateNumber}</Text>
       <Text style={styles.cell}>{item.model}</Text>
-      <Text style={styles.cell}>{item.maintenanceStatus}</Text>
+      <Text style={styles.cell}>{item.maintenance}</Text>
     </TouchableOpacity>
   );
 
@@ -86,7 +102,7 @@ const VehiclesComponent = () => {
 
       {/* Table Body */}
       <FlatList
-        data={filteredVehicles}
+        data={vehicles}
         keyExtractor={(item) => item.vehicleId}
         renderItem={renderVehicleRow}
       />
