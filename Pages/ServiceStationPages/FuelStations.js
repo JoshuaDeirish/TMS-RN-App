@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,10 +20,26 @@ const sampleFuelStations = [
 
 const FuelStationsComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [fuelStations, setFuelStations] = useState([]);
   const navigation = useNavigation();
 
+    useEffect(() => {
+      fetchFuelStations();
+    }, []);
+    
+    const fetchFuelStations = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/fuel-stations/");
+        const data = await response.json();
+        setFuelStations(data);
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
   // Filter logic
-  const filteredFuelStations = sampleFuelStations.filter((station) =>
+  const filteredFuelStations = fuelStations.filter((station) =>
     station.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -33,9 +49,10 @@ const FuelStationsComponent = () => {
       style={styles.row}
       onPress={() => navigation.navigate("FuelStationViewComponent", { station: item })}
     >
-      <Text style={styles.cell}>{item.stationID}</Text>
+      <Text style={styles.cell}>{item.id}</Text>
       <Text style={styles.cell}>{item.name}</Text>
       <Text style={styles.cell}>{item.address}</Text>
+      <Text style={styles.cell}>{item.fuelPrice}</Text>
     </TouchableOpacity>
   );
 
@@ -70,7 +87,7 @@ const FuelStationsComponent = () => {
 
       {/* Table Body */}
       <FlatList
-        data={filteredFuelStations}
+        data={fuelStations}
         keyExtractor={(item) => item.stationID}
         renderItem={renderFuelStationRow}
       />

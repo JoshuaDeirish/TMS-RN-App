@@ -13,12 +13,32 @@ import { useNavigation } from "@react-navigation/native";
 
 const AddFuelStationComponent = () => {
   const navigation = useNavigation();
-
+  const [id, setId] = useState ("");
   const [stationName, setStationName] = useState("");
   const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [website, setWebsite] = useState("");
+  const [fuelPrice, setFuelPrice] = useState("");
+  const addFuelStation = async () => {
+    const fuelStationData ={
+      id: id,
+      name: stationName,
+      address,
+      fuelPrice,
+    };
+    try{
+      const response = await fetch("http://127.0.0.1:8000/api/fuel-stations/create/", {
+        method: "POST",
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(fuelStationData),
+      });
+      const data = await response.json()
+      console.log(data);
 
+    }catch(err){
+      console.log(err);
+    }
+  }
   const handleAddStation = () => {
     if (!stationName || !address || !phone || !website) {
       Alert.alert("Error", "Please fill in all required fields.");
@@ -49,6 +69,12 @@ const AddFuelStationComponent = () => {
         <TextInput
           style={styles.input}
           placeholder="Station Name"
+          value={id}
+          onChangeText={setId}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Station Name"
           value={stationName}
           onChangeText={setStationName}
         />
@@ -60,21 +86,13 @@ const AddFuelStationComponent = () => {
         />
         <TextInput
           style={styles.input}
-          placeholder="Phone"
-          value={phone}
-          onChangeText={setPhone}
-          keyboardType="phone-pad"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Website"
-          value={website}
-          onChangeText={setWebsite}
-          keyboardType="url"
+          placeholder="Fuel Price"
+          value={fuelPrice}
+          onChangeText={setFuelPrice}
         />
 
         {/* Submit Button */}
-        <TouchableOpacity style={styles.button} onPress={handleAddStation}>
+        <TouchableOpacity style={styles.button} onPress={addFuelStation}>
           <Text style={styles.buttonText}>Save Station</Text>
         </TouchableOpacity>
 
