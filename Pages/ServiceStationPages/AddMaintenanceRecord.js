@@ -16,13 +16,36 @@ const AddMaintenanceRecordComponent = () => {
 
   const [recordId, setRecordId] = useState("");
   const [vehicle, setVehicle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [maintenanceDate, setMaintenanceDate] = useState("");
   const [description, setDescription] = useState("");
   const [cost, setCost] = useState("");
 
+  const addMR = async () => {
+    const mrData ={
+      id: recordId,
+      vehicle: vehicle,
+      maintenanceDate,
+      description,
+      cost,
+    };
+    try{
+      const response = await fetch("http://127.0.0.1:8000/api/maintenance-records/create/", {
+        method: "POST",
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(mrData),
+      });
+      const data = await response.json()
+      console.log(data);
+
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   const handleAddMaintenanceRecord = () => {
-    if (!recordId || !vehicle || !startDate || !endDate || !description || !cost) {
+    if (!recordId || !vehicle || !maintenanceDate || !description || !cost) {
       Alert.alert("Error", "Please fill in all fields.");
       return;
     }
@@ -30,8 +53,7 @@ const AddMaintenanceRecordComponent = () => {
     const newMaintenanceRecord = {
       recordId,
       vehicle,
-      startDate,
-      endDate,
+      maintenanceDate,
       description,
       cost: parseFloat(cost),
     };
@@ -62,15 +84,9 @@ const AddMaintenanceRecordComponent = () => {
         />
         <TextInput
           style={styles.input}
-          placeholder="Start Date (YYYY-MM-DD)"
-          value={startDate}
-          onChangeText={setStartDate}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="End Date (YYYY-MM-DD)"
-          value={endDate}
-          onChangeText={setEndDate}
+          placeholder="Date (YYYY-MM-DD)"
+          value={maintenanceDate}
+          onChangeText={setMaintenanceDate}
         />
         <TextInput
           style={styles.input}
@@ -87,7 +103,7 @@ const AddMaintenanceRecordComponent = () => {
         />
 
         {/* Submit Button */}
-        <TouchableOpacity style={styles.button} onPress={handleAddMaintenanceRecord}>
+        <TouchableOpacity style={styles.button} onPress={addMR}>
           <Text style={styles.buttonText}>Save Record</Text>
         </TouchableOpacity>
 

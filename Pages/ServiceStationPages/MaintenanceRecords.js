@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -38,13 +38,30 @@ const sampleMaintenanceRecords = [
   },
 ];
 
+
 const MaintenanceRecordComponent = () => {
   const [search, setSearch] = useState("");
+  const [mr, setMr] = useState([]);
   const navigation = useNavigation();
 
+  useEffect(() => {
+    fetchMr();
+  }, []);
+  
+  const fetchMr = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/maintenance-records/");
+      const data = await response.json();
+      setMr(data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   // Filter records by vehicle name
-  const filteredRecords = sampleMaintenanceRecords.filter((record) =>
-    record.vehicle.toLowerCase().includes(search.toLowerCase())
+  const filteredRecords = mr.filter((record) =>
+    record.description.toLowerCase().includes(search.toLowerCase())
   );
 
   // Render a single maintenance record row
@@ -53,12 +70,11 @@ const MaintenanceRecordComponent = () => {
       style={styles.row}
       onPress={() => navigation.navigate("MaintenanceRecordViewComponent", { maintenanceRecord: item })}
     >
-      <Text style={styles.cell}>{item.recordId}</Text>
+      <Text style={styles.cell}>{item.id}</Text>
       <Text style={styles.cell}>{item.vehicle}</Text>
-      <Text style={styles.cell}>{item.startDate}</Text>
-      <Text style={styles.cell}>{item.endDate}</Text>
+      <Text style={styles.cell}>{item.maintenanceDate}</Text>
       <Text style={styles.cell}>{item.description}</Text>
-      <Text style={styles.cell}>${item.cost.toFixed(2)}</Text>
+      <Text style={styles.cell}>${item.cost}</Text>
     </TouchableOpacity>
   );
 
@@ -88,14 +104,13 @@ const MaintenanceRecordComponent = () => {
         <Text style={[styles.cell, styles.headerCell]}>Record ID</Text>
         <Text style={[styles.cell, styles.headerCell]}>Vehicle</Text>
         <Text style={[styles.cell, styles.headerCell]}>Start Date</Text>
-        <Text style={[styles.cell, styles.headerCell]}>End Date</Text>
         <Text style={[styles.cell, styles.headerCell]}>Description</Text>
         <Text style={[styles.cell, styles.headerCell]}>Cost</Text>
       </View>
 
       {/* Table Body */}
       <FlatList
-        data={filteredRecords}
+        data={mr}
         keyExtractor={(item) => item.recordId}
         renderItem={renderMaintenanceRecordRow}
       />
@@ -133,15 +148,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   headerContainer: {
-      backgroundColor: "#007bff",
-      padding: 20,
-    },
-    headerText: {
-      color: "#fff",
-      fontSize: 20,
-      fontWeight: "bold",
-      textAlign: "center",
-    },
+    backgroundColor: "#007bff",
+    padding: 20,
+  },
+  headerText: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   headerRow: {
     flexDirection: "row",
     backgroundColor: "#007bff",
