@@ -5,7 +5,7 @@ const geocodeWithOpenCage = async (address) => {
   const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
     address
   )}&key=${apiKey}`;
-
+  
   try {
     const response = await axios.get(url);
     const results = response.data.results;
