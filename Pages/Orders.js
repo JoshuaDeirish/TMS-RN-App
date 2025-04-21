@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,38 +7,50 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import Order from '../Classes/Order'
-// Sample data for orders
-const sampleOrders = [
-  new Order("O001", new Date("2024-11-01"), null, "Alice Johnson", 150.0),
-  new Order("O002", new Date("2024-11-05"), { shipmentID: "S001" }, "Bob Smith", 300.0),
-  new Order("O003", new Date("2024-11-10"), null, "Carol White", 200.0),
-  new Order("O004", new Date("2024-11-15"), { shipmentID: "S002" }, "David Brown", 400.0),
-  new Order("O005", new Date("2024-11-20"), null, "Eve Green", 100.0),
-];
 
 const OrdersComponent = () => {
   const [filter, setFilter] = useState("All");
+  const [orders, setOrder] = useState([]);
+
+  useEffect(() => {
+    fetchOrder();
+  }, []);
+
+  const fetchOrder = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/orders/");
+      const data = await response.json();
+      setOrder(data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   // Filter logic
-  const filteredOrders = sampleOrders.filter((order) => {
+  const filteredOrders = orders.filter((order) => {
     if (filter === "No Shipment") return !order.shipment; // Orders with no shipment assigned
     return true; // Default: show all orders
   });
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  };
 
   // Render a single order row
   const renderOrderRow = ({ item }) => (
     <View style={styles.row}>
-      <Text style={styles.cell}>{item.orderID}</Text>
-      <Text style={styles.cell}>{item.orderDate.toDateString()}</Text>
-      <Text style={styles.cell}>{item.shipment ? item.shipment.shipmentID : "None"}</Text>
+      <Text style={styles.cell}>{item.id}</Text>
+      <Text style={styles.cell}>{formatDate(item.orderDate)}</Text>
+      <Text style={styles.cell}>{item.shipment}</Text>
       <Text style={styles.cell}>{item.client}</Text>
-      <Text style={styles.cell}>{`$${item.totalAmount.toFixed(2)}`}</Text>
+      <Text style={styles.cell}>{item.totalAmount}</Text>
     </View>
   );
 
   return (
     <SafeAreaView style={styles.container}>
+
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Orders</Text>
       </View>
@@ -69,11 +81,13 @@ const OrdersComponent = () => {
 
       {/* Table Body */}
       <FlatList
-        data={filteredOrders}
-        keyExtractor={(item) => item.orderID}
+        data={orders}
+        keyExtractor={(order) => order.id}
         renderItem={renderOrderRow}
       />
+
     </SafeAreaView>
+
   );
 };
 
