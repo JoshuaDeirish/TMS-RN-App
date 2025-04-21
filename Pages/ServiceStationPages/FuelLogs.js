@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -37,12 +37,24 @@ const sampleFuelLogs = [
 
 const FuelLogComponent = () => {
   const [search, setSearch] = useState("");
+  const [fuelLogs, setFuelLogs] = useState([])
   const navigation = useNavigation();
+  useEffect(() => {
+    fetchFuelLogs();
+  }, []);
 
-  // Filter logs by vehicle name
-  const filteredLogs = sampleFuelLogs.filter((log) =>
-    log.vehicle.toLowerCase().includes(search.toLowerCase())
-  );
+  const fetchFuelLogs = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/fuel-logs/");
+      const data = await response.json();
+      setFuelLogs(data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
 
   // Render a single fuel log row
   const renderFuelLogRow = ({ item }) => (
@@ -50,11 +62,10 @@ const FuelLogComponent = () => {
       style={styles.row}
       onPress={() => navigation.navigate("FuelLogViewComponent", { fuelLog: item })}
     >
-      <Text style={styles.cell}>{item.logId}</Text>
+      <Text style={styles.cell}>{item.id}</Text>
       <Text style={styles.cell}>{item.vehicle}</Text>
-      <Text style={styles.cell}>{item.fuelDate}</Text>
-      <Text style={styles.cell}>${item.cost.toFixed(2)}</Text>
-      <Text style={styles.cell}>{item.liters.toFixed(1)} L</Text>
+      <Text style={styles.cell}>${item.fuelAmount}</Text>
+      <Text style={styles.cell}>{item.dateLogged}</Text>
     </TouchableOpacity>
   );
 
@@ -90,7 +101,7 @@ const FuelLogComponent = () => {
 
       {/* Table Body */}
       <FlatList
-        data={filteredLogs}
+        data={fuelLogs}
         keyExtractor={(item) => item.logId}
         renderItem={renderFuelLogRow}
       />
@@ -128,15 +139,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   headerContainer: {
-      backgroundColor: "#007bff",
-      padding: 20,
-    },
-    headerText: {
-      color: "#fff",
-      fontSize: 20,
-      fontWeight: "bold",
-      textAlign: "center",
-    },
+    backgroundColor: "#007bff",
+    padding: 20,
+  },
+  headerText: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   headerRow: {
     flexDirection: "row",
     backgroundColor: "#007bff",

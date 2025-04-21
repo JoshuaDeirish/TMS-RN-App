@@ -20,6 +20,30 @@ const AddFuelLogComponent = () => {
   const [cost, setCost] = useState("");
   const [liters, setLiters] = useState("");
 
+
+  const addFuelLog = async () => {
+    const fuelStationData ={
+      id: logId,
+      vehicle: vehicle,
+      dateLogged: fuelDate, 
+      fuelAmount: cost,
+    };
+    try{
+      const response = await fetch("http://127.0.0.1:8000/api/fuel-logs/create/", {
+        method: "POST",
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(fuelStationData),
+      });
+      const data = await response.json()
+      console.log(data);
+
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   const handleAddFuelLog = () => {
     if (!logId || !vehicle || !fuelDate || !cost || !liters) {
       Alert.alert("Error", "Please fill in all fields.");
@@ -81,7 +105,7 @@ const AddFuelLogComponent = () => {
         />
 
         {/* Submit Button */}
-        <TouchableOpacity style={styles.button} onPress={handleAddFuelLog}>
+        <TouchableOpacity style={styles.button} onPress={addFuelLog}>
           <Text style={styles.buttonText}>Save Fuel Log</Text>
         </TouchableOpacity>
 
