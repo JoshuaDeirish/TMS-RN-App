@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -19,10 +19,26 @@ const sampleShipments = [
 
 const ShipmentsComponent = () => {
   const [filter, setFilter] = useState("All");
+  const [shipments, setShipments] = useState([]);
   const navigation = useNavigation();
 
+    useEffect(() => {
+      fetchShipments();
+    }, []);
+    
+    const fetchShipments = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/shipments/");
+        const data = await response.json();
+        setShipments(data);
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
   // Filter logic
-  const filteredShipments = sampleShipments.filter((shipment) => {
+  const filteredShipments = shipments.filter((shipment) => {
     if (filter === "In Transit") return shipment.status === "In Transit";
     if (filter === "Not Assigned") return !shipment.truck;
     if (filter === "Delivered") return shipment.status === "Delivered";
@@ -35,10 +51,10 @@ const ShipmentsComponent = () => {
       style={styles.row}
       onPress={() => navigation.navigate("ShipmentViewComponent", { shipment: item })}
     >
-      <Text style={styles.cell}>{item.shipmentID}</Text>
+      <Text style={styles.cell}>{item.id}</Text>
       <Text style={styles.cell}>{item.origin}</Text>
       <Text style={styles.cell}>{item.destination}</Text>
-      <Text style={styles.cell}>{item.status}</Text>
+      <Text style={styles.cell}>{item.deliveryTime}</Text>
     </TouchableOpacity>
   );
 
@@ -85,7 +101,7 @@ const ShipmentsComponent = () => {
 
       {/* Table Body */}
       <FlatList
-        data={filteredShipments}
+        data={shipments}
         keyExtractor={(item) => item.shipmentID}
         renderItem={renderShipmentRow}
       />

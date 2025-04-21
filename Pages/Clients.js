@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,22 @@ const sampleClients = [
 
 const ClientsComponent = () => {
   const [filter, setFilter] = useState("All");
+  const [clients, setClients] = useState([]);
+  useEffect(() => {
+    fetchClients();
+  }, []);
+  
+  const fetchClients = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/clients/");
+      const data = await response.json();
+      setClients(data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
 
   // Filter logic
   const filteredClients = sampleClients.filter((client) => {
@@ -35,10 +51,11 @@ const ClientsComponent = () => {
   // Render a single client row
   const renderClientRow = ({ item }) => (
     <View style={styles.row}>
-      <Text style={styles.cell}>{item.clientID}</Text>
+      <Text style={styles.cell}>{item.id}</Text>
       <Text style={styles.cell}>{item.name}</Text>
       <Text style={styles.cell}>{item.address}</Text>
-      <Text style={styles.cell}>{item.contactInfo}</Text>
+      <Text style={styles.cell}>{item.email}</Text>
+      <Text style={styles.cell}>{item.phoneNumber}</Text>
     </View>
   );
 
@@ -74,12 +91,14 @@ const ClientsComponent = () => {
         <Text style={[styles.cell, styles.headerCell]}>ID</Text>
         <Text style={[styles.cell, styles.headerCell]}>Name</Text>
         <Text style={[styles.cell, styles.headerCell]}>Address</Text>
+        <Text style={[styles.cell, styles.headerCell]}>Email</Text>
         <Text style={[styles.cell, styles.headerCell]}>Contact Info</Text>
+
       </View>
 
       {/* Table Body */}
       <FlatList
-        data={filteredClients}
+        data={clients}
         keyExtractor={(item) => item.clientID}
         renderItem={renderClientRow}
       />
