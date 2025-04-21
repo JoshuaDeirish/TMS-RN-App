@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import MapViewWrapper from "../../Components/MapViewWrapper";
 
 const FuelStationViewComponent = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { station } = route.params;
-
+ 
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -30,6 +31,8 @@ const FuelStationViewComponent = () => {
           {station.website}
         </Text>
       </View>
+      <MapViewWrapper address={station.address} />
+
 
       {/* Back Button */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>

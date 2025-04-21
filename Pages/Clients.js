@@ -45,7 +45,7 @@ const ClientsComponent = () => {
       return /^[A-M]/i.test(client.name); // Names starting with A-M
     if (filter === "N-Z")
       return /^[N-Z]/i.test(client.name); // Names starting with N-Z
-    return true; // Default: show all clients
+    return true; 
   });
 
   // Render a single client row
