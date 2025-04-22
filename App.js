@@ -44,7 +44,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNav = () => (
   <Drawer.Navigator initialRouteName="Dashboard" drawerType="permanent">
     <Drawer.Screen name="Dashboard" component={Dashboard} />
-    <Drawer.Screen name="Operators" component={OperatorComponent} />
+    {/* <Drawer.Screen name="Operators" component={OperatorComponent} /> */}
     <Drawer.Screen name="Clients" component={ClientComponent} />
     <Drawer.Screen name="Orders" component={OrderComponent} />
     <Drawer.Screen name="Invoices" component={InvoicesComponent} />
@@ -64,7 +64,7 @@ const WebSideMenuLayout = ({ navigation }) => {
 
   const screens = [
     { name: 'Dashboard', component: Dashboard },
-    { name: 'Operators', component: OperatorComponent },
+    // { name: 'Operators', component: OperatorComponent },
     { name: 'Clients', component: ClientComponent },
     { name: 'Orders', component: OrderComponent },
     { name: 'Invoices', component: InvoicesComponent },
