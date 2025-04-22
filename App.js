@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -29,16 +29,18 @@ import AddMaintenanceStationComponent from './Pages/ServiceStationPages/AddMaint
 import VehiclesComponent from './Pages/VehiclePages/Vehicles';
 import VehicleViewComponent from './Pages/VehiclePages/VehicleView';
 import AddVehicleComponent from './Pages/VehiclePages/AddVehicle';
-import TestPage from './Pages/TestPage';
 import InvoiceViewComponent from './Pages/InvoiceView';
 import InvoicesComponent from './Pages/Invoices';
 import AddInvoiceComponent from './Pages/AddInvoice';
+import LocationComponent from './Pages/LocationPages/Locations';
+import LocationViewComponent from './Pages/LocationPages/LocationView';
+import AddLocationComponent from './Pages/LocationPages/AddLocation';
 
 // Navigation Setup
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-// Drawer Navigation for Mobile
+// Drawer Navigation for Tablets
 const DrawerNav = () => (
   <Drawer.Navigator initialRouteName="Dashboard" drawerType="permanent">
     <Drawer.Screen name="Dashboard" component={Dashboard} />
@@ -47,12 +49,12 @@ const DrawerNav = () => (
     <Drawer.Screen name="Orders" component={OrderComponent} />
     <Drawer.Screen name="Invoices" component={InvoicesComponent} />
     <Drawer.Screen name="Shipments" component={ShipmentsComponent} />
+    <Drawer.Screen name="Location" component={LocationComponent} />
     <Drawer.Screen name="Vehicles" component={VehiclesComponent} />
     <Drawer.Screen name="Fuel Stations" component={FuelStationsComponent} />
     <Drawer.Screen name="Fuel Logs" component={FuelLogComponent} />
     <Drawer.Screen name="Maintenance Stations" component={MaintenanceStationsComponent} />
     <Drawer.Screen name="Maintenance Records" component={MaintenanceRecordComponent} />
-    <Drawer.Screen name = "Test Page" component={TestPage} />
   </Drawer.Navigator>
 );
 
@@ -67,12 +69,13 @@ const WebSideMenuLayout = ({ navigation }) => {
     { name: 'Orders', component: OrderComponent },
     { name: 'Invoices', component: InvoicesComponent },
     { name: 'Shipments', component: ShipmentsComponent },
+    { name: 'Location', component: LocationComponent },
     { name: 'Vehicles', component: VehiclesComponent },
     { name: 'Fuel Stations', component: FuelStationsComponent },
     { name: 'Fuel Logs', component: FuelLogComponent },
     { name: 'Maintenance Stations', component: MaintenanceStationsComponent },
     { name: 'Maintenance Records', component: MaintenanceRecordComponent },
-    {name: 'Test Page', component: TestPage},
+   
   ];
 
   const ActiveComponent = screens.find(screen => screen.name === activeScreen).component;
@@ -81,6 +84,15 @@ const WebSideMenuLayout = ({ navigation }) => {
     <View style={styles.webContainer}>
       {/* Side Menu (Persistent) */}
       <View style={styles.sideMenu}>
+      <View style={styles.headerContainer}>
+  <Image
+    source={require('./assets/favicon.png')} 
+    style={styles.logo}
+    resizeMode="contain"
+  />
+  <Text style={styles.headerText}>Tremart TMS</Text>
+</View>
+
         {screens.map(screen => (
           <TouchableOpacity
             key={screen.name}
@@ -186,11 +198,6 @@ const App = () => {
           options={{ title: 'Add Maintenance Station' }}
         />
         <Stack.Screen 
-          name="TestPage"
-          component={TestPage}
-          options={{title: 'Test Page'}}
-        />
-        <Stack.Screen 
           name="AddOrderComponent"
           component={AddOrderComponent}
           options={{title: 'Add Order'}}
@@ -214,6 +221,21 @@ const App = () => {
           name="AddInvoiceComponent"
           component={AddInvoiceComponent}
           options={{title: 'Add Invoice'}}
+        />
+        <Stack.Screen 
+          name="AddLocationComponent"
+          component={AddLocationComponent}
+          options={{title: 'Add Location'}}
+        />
+        <Stack.Screen 
+          name="LocationViewComponent"
+          component={LocationViewComponent}
+          options={{title: 'Location Details'}}
+        />
+        <Stack.Screen 
+          name="LocationComponent"
+          component={LocationComponent}
+          options={{title: 'Locations'}}
         />
         
       </Stack.Navigator>
@@ -249,6 +271,27 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    marginBottom: 10,
+    backgroundColor: '#f4f4f4',
+  },
+  logo: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#007bff',
+  },
+  
 });
 
 export default App;
