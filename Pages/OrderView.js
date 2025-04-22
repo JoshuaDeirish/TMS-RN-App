@@ -1,41 +1,35 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-const InvoiceViewComponent = () => {
+const OrderViewComponent = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { invoice } = route.params;
+  const { order } = route.params;
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Invoice Details</Text>
+        <Text style={styles.headerText}>Order Details</Text>
       </View>
 
-      {/* Invoice Details */}
+      {/* Order Details */}
       <View style={styles.detailContainer}>
-        <Text style={styles.label}>Invoice ID:</Text>
-        <Text style={styles.value}>{invoice.id}</Text>
-
-        <Text style={styles.label}>Amount Due:</Text>
-        <Text style={styles.value}>${parseFloat(invoice.amountDue).toFixed(2)}</Text>
-
-        <Text style={styles.label}>Payment Status:</Text>
-        <Text style={styles.value}>{invoice.paymentStatus}</Text>
-
-        <Text style={styles.label}>Issue Date:</Text>
-        <Text style={styles.value}>{invoice.issueDate}</Text>
-
         <Text style={styles.label}>Order ID:</Text>
-        <Text style={styles.value}>{invoice.order_id}</Text>
+        <Text style={styles.value}>{order.id}</Text>
+
+        <Text style={styles.label}>Order Date:</Text>
+        <Text style={styles.value}>{order.orderDate}</Text>
+
+        <Text style={styles.label}>Total Amount:</Text>
+        <Text style={styles.value}>${order.totalAmount.toFixed(2)}</Text>
+
+        <Text style={styles.label}>Client ID:</Text>
+        <Text style={styles.value}>{order.clientId}</Text>
+
+        <Text style={styles.label}>Shipment ID:</Text>
+        <Text style={styles.value}>{order.shipmentId}</Text>
       </View>
 
       {/* Back Button */}
@@ -86,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InvoiceViewComponent;
+export default OrderViewComponent;

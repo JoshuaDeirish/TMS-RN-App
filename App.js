@@ -12,6 +12,8 @@ import ShipmentsComponent from './Pages/Shipments';
 import ShipmentViewComponent from './Pages/ShipmentView';
 import ClientComponent from './Pages/Clients';
 import OrderComponent from './Pages/Orders';
+import AddOrderComponent from './Pages/AddOrder';
+import OrderViewComponent from './Pages/OrderView';
 import FuelLogComponent from './Pages/ServiceStationPages/FuelLogs';
 import FuelLogViewComponent from './Pages/ServiceStationPages/FuelLogView';
 import AddFuelLogComponent from './Pages/ServiceStationPages/AddFuelLog';
@@ -28,6 +30,9 @@ import VehiclesComponent from './Pages/VehiclePages/Vehicles';
 import VehicleViewComponent from './Pages/VehiclePages/VehicleView';
 import AddVehicleComponent from './Pages/VehiclePages/AddVehicle';
 import TestPage from './Pages/TestPage';
+import InvoiceViewComponent from './Pages/InvoiceView';
+import InvoicesComponent from './Pages/Invoices';
+import AddInvoiceComponent from './Pages/AddInvoice';
 
 // Navigation Setup
 const Stack = createStackNavigator();
@@ -40,6 +45,7 @@ const DrawerNav = () => (
     <Drawer.Screen name="Operators" component={OperatorComponent} />
     <Drawer.Screen name="Clients" component={ClientComponent} />
     <Drawer.Screen name="Orders" component={OrderComponent} />
+    <Drawer.Screen name="Invoices" component={InvoicesComponent} />
     <Drawer.Screen name="Shipments" component={ShipmentsComponent} />
     <Drawer.Screen name="Vehicles" component={VehiclesComponent} />
     <Drawer.Screen name="Fuel Stations" component={FuelStationsComponent} />
@@ -59,6 +65,7 @@ const WebSideMenuLayout = ({ navigation }) => {
     { name: 'Operators', component: OperatorComponent },
     { name: 'Clients', component: ClientComponent },
     { name: 'Orders', component: OrderComponent },
+    { name: 'Invoices', component: InvoicesComponent },
     { name: 'Shipments', component: ShipmentsComponent },
     { name: 'Vehicles', component: VehiclesComponent },
     { name: 'Fuel Stations', component: FuelStationsComponent },
@@ -182,6 +189,31 @@ const App = () => {
           name="TestPage"
           component={TestPage}
           options={{title: 'Test Page'}}
+        />
+        <Stack.Screen 
+          name="AddOrderComponent"
+          component={AddOrderComponent}
+          options={{title: 'Add Order'}}
+        />
+        <Stack.Screen 
+          name="OrderViewComponent"
+          component={OrderViewComponent}
+          options={{title: 'Order Details'}}
+        />
+        <Stack.Screen 
+          name="InvoiceViewComponent"
+          component={InvoiceViewComponent}
+          options={{title: 'Invoice Details'}}
+        />
+        <Stack.Screen 
+          name="InvoicesComponent"
+          component={InvoicesComponent}
+          options={{title: 'Invoices'}}
+        />
+        <Stack.Screen 
+          name="AddInvoiceComponent"
+          component={AddInvoiceComponent}
+          options={{title: 'Add Invoice'}}
         />
         
       </Stack.Navigator>

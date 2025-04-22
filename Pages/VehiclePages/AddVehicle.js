@@ -14,7 +14,6 @@ import { useNavigation } from "@react-navigation/native";
 const AddVehicleComponent = () => {
   const navigation = useNavigation();
 
-  // State for form inputs
   const [vehicleId, setVehicleId] = useState("");
   const [licencePlateNum, setLicencePlateNum] = useState("");
   const [model, setModel] = useState("");
@@ -47,12 +46,10 @@ const AddVehicleComponent = () => {
     }catch(err){
       console.log(err);
     }
-
-
     
   }
 
-  // Function to handle form submission
+
   const handleAddVehicle = () => {
     if (
       !vehicleId ||
@@ -136,7 +133,7 @@ const AddVehicleComponent = () => {
 
         {/* Submit Button */}
         <TouchableOpacity style={styles.button} onPress={addVehicle}>
-          <Text style={styles.buttonText}>Save Vehicle</Text>
+          <Text style={styles.buttonText}>Add Vehicle</Text>
         </TouchableOpacity>
 
         {/* Back Button */}

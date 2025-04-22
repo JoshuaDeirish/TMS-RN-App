@@ -7,11 +7,12 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const OrdersComponent = () => {
   const [filter, setFilter] = useState("All");
   const [orders, setOrder] = useState([]);
-
+const navigation = useNavigation();
   useEffect(() => {
     fetchOrder();
   }, []);
@@ -67,6 +68,12 @@ const OrdersComponent = () => {
           onPress={() => setFilter("No Shipment")}
         >
           <Text style={styles.tabText}>No Shipment</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => navigation.navigate("AddOrderComponent")}
+        >
+          <Text style={styles.addButtonText}>Add Order</Text>
         </TouchableOpacity>
       </View>
 
@@ -144,6 +151,27 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     fontSize: 14,
+  },
+  button: {
+    backgroundColor: "#007bff",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  addButton: {
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 5,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 
