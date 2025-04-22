@@ -9,13 +9,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-// Sample shipments data
-const sampleShipments = [
-  { shipmentID: "S001", origin: "Toronto", destination: "New York", status: "In Transit", truck: "Truck 001" },
-  { shipmentID: "S002", origin: "Los Angeles", destination: "Chicago", status: "Delivered", truck: "Truck 002" },
-  { shipmentID: "S003", origin: "Miami", destination: "Atlanta", status: "Not Assigned", truck: null },
-  { shipmentID: "S004", origin: "San Francisco", destination: "Seattle", status: "In Transit", truck: "Truck 003" },
-];
 
 const ShipmentsComponent = () => {
   const [filter, setFilter] = useState("All");

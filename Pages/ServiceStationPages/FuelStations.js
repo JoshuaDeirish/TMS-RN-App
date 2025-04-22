@@ -10,13 +10,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-// Sample fuel stations data
-const sampleFuelStations = [
-  { stationID: "F001", name: "QuickFuel", address: "14 Iles St, Ajax Ontario Canada", phone: "(555) 123-4567", website: "www.quickfuel.com" },
-  { stationID: "F002", name: "SuperEnergy", address: "456 Elm St, Vancouver", phone: "(555) 987-6543", website: "www.superenergy.com" },
-  { stationID: "F003", name: "AutoFix Garage", address: "789 Pine St, Calgary", phone: "(555) 321-0987", website: "www.autofixgarage.com" },
-  { stationID: "F004", name: "FuelMaster", address: "321 Oak St, Ottawa", phone: "(555) 654-3210", website: "www.fuelmaster.com" },
-];
 
 const FuelStationsComponent = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,7 +45,7 @@ const FuelStationsComponent = () => {
       <Text style={styles.cell}>{item.id}</Text>
       <Text style={styles.cell}>{item.name}</Text>
       <Text style={styles.cell}>{item.address}</Text>
-      <Text style={styles.cell}>{item.fuelPrice}</Text>
+      <Text style={styles.cell}>${item.fuelPrice}/L</Text>
     </TouchableOpacity>
   );
 
@@ -83,6 +76,7 @@ const FuelStationsComponent = () => {
         <Text style={[styles.cell, styles.headerCell]}>Station ID</Text>
         <Text style={[styles.cell, styles.headerCell]}>Name</Text>
         <Text style={[styles.cell, styles.headerCell]}>Address</Text>
+        <Text style={[styles.cell, styles.headerCell]}>Fuel Price</Text>
       </View>
 
       {/* Table Body */}

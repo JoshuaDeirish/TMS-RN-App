@@ -94,9 +94,8 @@ const FuelLogComponent = () => {
       <View style={styles.headerRow}>
         <Text style={[styles.cell, styles.headerCell]}>Log ID</Text>
         <Text style={[styles.cell, styles.headerCell]}>Vehicle</Text>
-        <Text style={[styles.cell, styles.headerCell]}>Fuel Date</Text>
         <Text style={[styles.cell, styles.headerCell]}>Cost</Text>
-        <Text style={[styles.cell, styles.headerCell]}>Liters</Text>
+        <Text style={[styles.cell, styles.headerCell]}>Fuel Date</Text>
       </View>
 
       {/* Table Body */}

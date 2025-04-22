@@ -53,7 +53,7 @@ const DrawerNav = () => (
     <Drawer.Screen name="Vehicles" component={VehiclesComponent} />
     <Drawer.Screen name="Fuel Stations" component={FuelStationsComponent} />
     <Drawer.Screen name="Fuel Logs" component={FuelLogComponent} />
-    <Drawer.Screen name="Maintenance Stations" component={MaintenanceStationsComponent} />
+    {/* <Drawer.Screen name="Maintenance Stations" component={MaintenanceStationsComponent} /> */}
     <Drawer.Screen name="Maintenance Records" component={MaintenanceRecordComponent} />
   </Drawer.Navigator>
 );
@@ -73,7 +73,7 @@ const WebSideMenuLayout = ({ navigation }) => {
     { name: 'Vehicles', component: VehiclesComponent },
     { name: 'Fuel Stations', component: FuelStationsComponent },
     { name: 'Fuel Logs', component: FuelLogComponent },
-    { name: 'Maintenance Stations', component: MaintenanceStationsComponent },
+    // { name: 'Maintenance Stations', component: MaintenanceStationsComponent },
     { name: 'Maintenance Records', component: MaintenanceRecordComponent },
    
   ];
@@ -187,7 +187,7 @@ const App = () => {
           component={AddFuelStationComponent}
           options={{ title: 'Add Fuel Station' }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="MaintenanceStationViewComponent"
           component={MaintenanceStationViewComponent}
           options={{ title: 'Maintenance Station Details' }}
@@ -196,7 +196,7 @@ const App = () => {
           name="AddMaintenanceStationComponent"
           component={AddMaintenanceStationComponent}
           options={{ title: 'Add Maintenance Station' }}
-        />
+        /> */}
         <Stack.Screen 
           name="AddOrderComponent"
           component={AddOrderComponent}
