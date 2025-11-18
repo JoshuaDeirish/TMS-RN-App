@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
+import layout from "../../styles/layout";
 export default function VehicleDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   const { vehicle } = route.params;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={layout.container}>
       {/* Header */}
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Vehicle Details</Text>

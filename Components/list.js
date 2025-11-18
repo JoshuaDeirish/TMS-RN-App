@@ -1,30 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import listStyles from '../styles/listStyles';
+import list from '../styles/list';
+import input from '../styles/input';
+import { Checkbox } from './Checkbox';
 
 export default function List({ columns = [], data = [], onItemPress }) {
+  const [checkedItems, setCheckedItems] = useState({});
+    const allChecked = data.length > 0 && data.every((item) => checkedItems[item.id]); 
+
+  const toggleCheck = (id) => {
+    setCheckedItems((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+  const toggleCheckAll = () => {
+  if (allChecked) {
+    // Uncheck all
+    const cleared = {};
+    data.forEach(item => { cleared[item.id] = false });
+    setCheckedItems(cleared);
+  } else {
+    // Check all
+    const filled = {};
+    data.forEach(item => { filled[item.id] = true });
+    setCheckedItems(filled);
+  }
+};
+
+
   return (
-    <View style={listStyles.container}>
-      {/* Column Headers */}
-      <View style={listStyles.headerRow}>
+    <View style={list.container}>
+
+      {/* Header */}
+      <View style={[list.headerRow, { flexDirection: "row", alignItems: "center" }]}>
+        <Checkbox
+        onChange={toggleCheckAll}
+        checked={allChecked}
+          />
         {columns.map((col, index) => (
-          <Text key={index} style={listStyles.headerText}>{col}</Text>
+          <Text key={index} style={list.headerText}>{col}</Text>
         ))}
       </View>
 
-      {/* List Items */}
-      {data.map((item, index) => (
-        <TouchableOpacity
-          key={index}
-          style={listStyles.itemRow}
-          onPress={() => onItemPress && onItemPress(item)}
+      {/* Rows */}
+      {data.map((item) => (
+        <View
+          key={item.id}
+          style={[list.itemRow, { flexDirection: "row", alignItems: "center" }]}
         >
-          {columns.map((col, i) => (
-            <Text key={i} style={listStyles.itemText}>
-              {item[col.toLowerCase()]} {/* Match keys with lowercased column names */}
-            </Text>
-          ))}
-        </TouchableOpacity>
+          
+          <Checkbox
+            checked={checkedItems[item.id] || false}
+            onChange={() => toggleCheck(item.id)}
+
+          />
+
+         
+          <TouchableOpacity
+            style={{ flex: 1, flexDirection: "row" }}
+            onPress={() => onItemPress && onItemPress(item)}
+            activeOpacity={0.6}
+          >
+            {columns.map((col, i) => (
+              <Text key={i} style={list.itemText}>
+                {item[col.toLowerCase()]}
+              </Text>
+            ))}
+          </TouchableOpacity>
+        </View>
       ))}
     </View>
   );

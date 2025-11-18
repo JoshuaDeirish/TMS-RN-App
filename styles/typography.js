@@ -1,8 +1,8 @@
 const typography = {
   text: {
-    base: {
+    body: {
       fontSize: 16,
-      color: '#333',
+      color: '#edededff',
     },
     muted: {
       fontSize: 16,
@@ -17,22 +17,22 @@ const typography = {
 
   heading: {
     h1: {
-      fontSize: 28,
+      fontSize: 32,
       fontWeight: 'bold',
       color: '#ffffff',
     },
     h2: {
-      fontSize: 24,
+      fontSize: 28,
       fontWeight: 'bold',
       color: '#ffffff',
     },
     h3: {
-      fontSize: 20,
+      fontSize: 24,
       fontWeight: 'bold',
       color: '#ffffff',
     },
     h4: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: 'bold',
       color: '#ffffff',
     },
@@ -65,6 +65,10 @@ const typography = {
       fontSize: 12,
       fontWeight: '600',
       color: '#007bff', 
+    },
+    caption: {
+      fontSize: 12,
+      color: '#c6c6c6ff', 
     },
   },
 };

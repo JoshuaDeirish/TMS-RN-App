@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import layout from '../../styles/layout';
 
 export default function TripListScreen() {
   return (
-    <View style={styles.container}>
+    <View style={layout.container}>
       <Text style={styles.heading}>SomeScreen</Text>
     </View>
   );

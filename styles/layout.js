@@ -1,9 +1,11 @@
 // styles/layout.js
+import colours from "./colours";
+
 export default {
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+    padding: 20,
+    backgroundColor: colours.background,
   },
   row: {
     flexDirection: 'row',

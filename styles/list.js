@@ -1,8 +1,7 @@
 
 export default {
   container: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
+    backgroundColor: "#1C1C1C",
     padding: 12,
     shadowColor: '#000',
     shadowOpacity: 0.05,
@@ -12,25 +11,25 @@ export default {
   headerRow: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#7c7c7c57",
     paddingBottom: 8,
-    marginBottom: 8,
+    
   },
   headerText: {
     flex: 1,
-    fontWeight: '600',
-    color: '#333',
-    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#ffffffff',
+    fontSize: 18,
   },
   itemRow: {
     flexDirection: 'row',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f4f4f4',
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderTopColor: "#7c7c7c57",
   },
   itemText: {
     flex: 1,
-    color: '#555',
-    fontSize: 14,
+    color: '#ffffffff',
+    fontSize: 18,
   },
 };

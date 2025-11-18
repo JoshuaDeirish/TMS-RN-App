@@ -5,7 +5,9 @@ const baseButton = {
   paddingHorizontal: 16,
   borderRadius: 8,
   alignItems: 'center',
-};
+  margin: 3,
+  maxWidth: '20%',
+}; 
 
 const buttons = {
   // 🔵 Primary Button

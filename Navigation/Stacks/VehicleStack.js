@@ -17,7 +17,7 @@ export default function VehiclesStack() {
       <Stack.Screen name="VehicleList" component={VehicleListScreen} options={{ title: 'Vehicles' }} />
       <Stack.Screen name="VehicleDetail" component={VehicleDetailsScreen} options={{ title: 'Vehicle Details' }} />
       <Stack.Screen name="VehicleEdit" component={VehicleEditScreen} options={{ title: 'Edit Vehicle' }} />
-      <Stack.Screen name="VehicleAdd" component={VehicleAddScreen} options={{ title: '' }} />
+      <Stack.Screen name="VehicleAdd" component={VehicleAddScreen} options={{ title: 'Vehicle Add' }} />
     </Stack.Navigator>
   );
 }

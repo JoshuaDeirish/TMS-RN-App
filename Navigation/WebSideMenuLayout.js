@@ -24,6 +24,8 @@ import TripStack from './Stacks/TripStack';
 import VehiclesStack from './Stacks/VehicleStack';
 import WarehouseStack from './Stacks/WarehouseStack';
 import VehicleAddScreen from '../Screens/Vehicles/VehicleAddScreen';
+import StyleGuideScreen from '../Screens/Settings/StyleGuide';
+import colours from '../styles/colours';
 
 // Menu array
 const SCREENS = [
@@ -42,18 +44,20 @@ const SCREENS = [
   { name: 'Notifications', component: NotificationStack },
   { name: 'Profile', component: ProfileStack },
   { name: 'Settings', component: SettingsStack },
+  { name: 'Style Guide', component: StyleGuideScreen },
   { name: 'Trailers', component: TrailerStack },
   { name: 'Trips', component: TripStack },
   { name: 'Vehicles', component: VehiclesStack },
   { name: 'Warehouses', component: WarehouseStack },
   { name: 'Add Vehicle', component: VehicleAddScreen },
+  
 ];
 
 
 const Stack = createStackNavigator();
 
 export default function WebSideMenuLayout() {
-  const [activeScreen, setActiveScreen] = useState('Add Vehicle');
+  const [activeScreen, setActiveScreen] = useState('Style Guide');
   const ActiveComponent = SCREENS.find(screen => screen.name === activeScreen).component;
 
   return (
@@ -62,9 +66,9 @@ export default function WebSideMenuLayout() {
       <View style={styles.sideMenu}>
         <View style={styles.header}>
           <Image source={require('../assets/favicon.png')} style={styles.logo} />
-          <Text style={styles.headerText}>Tremart TMS</Text>
+          <Text style={styles.headerText}>TMS</Text>
         </View>
-        <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.menuList}>
+        <View style={{ flex: 1 }} contentContainerStyle={styles.menuList}>
           {SCREENS.map(screen => (
             <TouchableOpacity
               key={screen.name}
@@ -74,7 +78,7 @@ export default function WebSideMenuLayout() {
               <Text style={styles.menuText}>{screen.name}</Text>
             </TouchableOpacity>
           ))}
-        </ScrollView>
+        </View>
 
       </View>
 
@@ -102,6 +106,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#2c2929ff',
     paddingVertical: 10,
     padding: 16,
+    height: '100vh',  
+    overflow: 'scroll',
   },
   header: {
     flexDirection: 'row',

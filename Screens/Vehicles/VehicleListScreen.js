@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#121212",
   },
+  
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
