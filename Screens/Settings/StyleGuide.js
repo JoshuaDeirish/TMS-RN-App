@@ -6,15 +6,46 @@ import buttons from '../../styles/buttons';
 import input from '../../styles/input';
 import Card from '../../Components/Card';
 import BoxList from '../../Components/BoxList';
-import List from '../../Components/List';
+import List from '../../Components/list';
+import HeaderContainer from '../../Components/HeaderContainer';
+import IconButton from '../../Components/IconButton';
+import SearchBar from '../../Components/SearchBar';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import FilterButton from '../../Components/FilterButton';
 
 
 export default function StyleGuideScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 50 }}>
       {/* TITLE */}
-      <Text style={typography.heading.h1}>Style Guide</Text>
+      <View style={styles.section}>
+        <Text style={typography.heading.h1}>Style Guide</Text>
       <Text style={typography.detail.label}>Preview of all shared UI components</Text>
+      </View>
+      
+
+      {/* -------------------- HEADERS -------------------- */}
+
+      <HeaderContainer title="Headers" />
+      <HeaderContainer
+        title="Headers With Buttons"
+        rightElement={
+          <IconButton
+            text="Add button"
+            icon={<AntDesign name="plus" size={20} color="white" />}
+            onPress={() => console.log("Added")}
+          />
+        }
+      />
+
+
+      {/* -------------------- FILTERS -------------------- */}
+
+      <View style={styles.filterContainer}>
+        <SearchBar value={""} onChangeText={() => { }} />
+        <FilterButton label="Active" count={12} onPress={() => { }} />
+        <FilterButton label="Inactive" count={3} onPress={() => { }} />
+      </View>
 
       {/* -------------------- TYPOGRAPHY -------------------- */}
       <View style={styles.section}>
@@ -152,12 +183,11 @@ export default function StyleGuideScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: colours.background,
   },
   section: {
     marginTop: 30,
-    paddingBottom: 10,
+    padding: 20,
     borderBottomWidth: 1,
 
   },
@@ -165,4 +195,17 @@ const styles = StyleSheet.create({
     ...typography.heading.h3,
 
   },
+  filterContainer: { 
+    paddingLeft: 20, 
+    paddingRight: 20, 
+    paddingTop: 30, 
+    paddingBottom: 30, 
+    borderBottomColor: 
+    colours.border, 
+    borderBottomWidth: 1, 
+    backgroundColor: 
+    colours.headerBackground, 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    columnGap: 5, },
 });

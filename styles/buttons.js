@@ -4,10 +4,13 @@ const baseButton = {
   paddingVertical: 10,
   paddingHorizontal: 16,
   borderRadius: 8,
-  alignItems: 'center',
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "row",
   margin: 3,
-  maxWidth: '20%',
-}; 
+  maxWidth: "20vw",
+};
+
 
 const buttons = {
   // 🔵 Primary Button
@@ -16,10 +19,10 @@ const buttons = {
     backgroundColor: '#007bff',
   },
   primaryText: {
-    color: '#fff',
-    fontWeight: 'semi-bold',
-    fontSize: 18,
-  },
+  color: "#fff",
+  fontWeight: "600", 
+  fontSize: 16,
+},
 
   // ⚪ Secondary Button
   secondary: {
