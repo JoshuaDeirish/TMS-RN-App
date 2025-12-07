@@ -2,45 +2,44 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import layout from "../../styles/layout";
-export default function VehicleDetailsScreen() {
+export default function VehicleDetailsScreen({ children }) {
   const navigation = useNavigation();
   const route = useRoute();
-  const { vehicle } = route.params;
+  const { item } = route.params;
 
   return (
     <SafeAreaView style={layout.container}>
       {/* Header */}
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Vehicle Details</Text>
-      </View>
-
+      
       {/* Vehicle Details */}
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Vehicle ID:</Text>
-        <Text style={styles.value}>{vehicle.vehicleId}</Text>
+        <Text style={styles.value}>{item.vehicleId}</Text>
 
         <Text style={styles.label}>License Plate Number:</Text>
-        <Text style={styles.value}>{vehicle.licencePlateNum}</Text>
+        <Text style={styles.value}>{item.licencePlateNum}</Text>
 
         <Text style={styles.label}>Model:</Text>
-        <Text style={styles.value}>{vehicle.model}</Text>
+        <Text style={styles.value}>{item.model}</Text>
 
         <Text style={styles.label}>Year:</Text>
-        <Text style={styles.value}>{vehicle.year}</Text>
+        <Text style={styles.value}>{item.year}</Text>
 
         <Text style={styles.label}>Capacity:</Text>
-        <Text style={styles.value}>{vehicle.capacity} kg</Text>
+        <Text style={styles.value}>{item.capacity} kg</Text>
 
         <Text style={styles.label}>Maintenance Status:</Text>
-        <Text style={styles.value}>{vehicle.maintenanceStatus}</Text>
+        <Text style={styles.value}>{item.maintenanceStatus}</Text>
 
         <Text style={styles.label}>Assigned Driver:</Text>
         <Text style={styles.value}>
-          {vehicle.assignedDriver ? vehicle.assignedDriver : "Not Assigned"}
+          {item.assignedDriver ? item.assignedDriver : "Not Assigned"}
         </Text>
       </View>
 
-      {/* Back Button */}
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("VehicleEdit", { item })}>
+        <Text style={styles.buttonText}>edit</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
         <Text style={styles.buttonText}>Back</Text>
       </TouchableOpacity>

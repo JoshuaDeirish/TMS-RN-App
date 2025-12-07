@@ -44,32 +44,34 @@ export default function List({ columns = [], data = [], onItemPress }) {
       </View>
 
       {/* Rows */}
-      {data.map((item) => (
-        <View
-          key={item.id}
-          style={[list.itemRow, { flexDirection: "row", alignItems: "center" }]}
-        >
-          
-          <Checkbox
-            checked={checkedItems[item.id] || false}
-            onChange={() => toggleCheck(item.id)}
+{data.length === 0 ? (
+  <View style={{ padding: 20, alignItems: "center" }}>
+    <Text style={{ color: "#aaa", fontSize: 16 }}>No items found.</Text>
+  </View>
+) : (
+  data.map((item) => (
+    <View
+      key={item.id}
+      style={[list.itemRow, { flexDirection: "row", alignItems: "center" }]}
+    >
+      <Checkbox
+        checked={checkedItems[item.id] || false}
+        onChange={() => toggleCheck(item.id)}
+      />
 
-          />
-
-         
-          <TouchableOpacity
-            style={{ flex: 1, flexDirection: "row" }}
-            onPress={() => onItemPress && onItemPress(item)}
-            activeOpacity={0.6}
-          >
-            {columns.map((col, i) => (
-              <Text key={i} style={list.itemText}>
-                {item[col.toLowerCase()]}
-              </Text>
-            ))}
-          </TouchableOpacity>
-        </View>
-      ))}
+      <TouchableOpacity
+        style={{ flex: 1, flexDirection: "row" }}
+        onPress={() => onItemPress && onItemPress(item)}
+      >
+        {columns.map((col, i) => (
+          <Text key={i} style={list.itemText}>
+            {item[col.toLowerCase()]}
+          </Text>
+        ))}
+      </TouchableOpacity>
+    </View>
+  ))
+)}
     </View>
   );
 }

@@ -23,7 +23,6 @@ import TrailerStack from './Stacks/TrailerStack';
 import TripStack from './Stacks/TripStack';
 import VehiclesStack from './Stacks/VehicleStack';
 import WarehouseStack from './Stacks/WarehouseStack';
-import VehicleAddScreen from '../Screens/Vehicles/VehicleAddScreen';
 import StyleGuideScreen from '../Screens/Settings/StyleGuide';
 import colours from '../styles/colours';
 
@@ -49,7 +48,6 @@ const SCREENS = [
   { name: 'Trips', component: TripStack },
   { name: 'Vehicles', component: VehiclesStack },
   { name: 'Warehouses', component: WarehouseStack },
-  { name: 'Add Vehicle', component: VehicleAddScreen },
   
 ];
 

@@ -2,10 +2,13 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import typography from "../styles/typography";
 
-export default function BoxListItem({ data, fields, image, onPress }) {
+export default function BoxListItem({ data, fields, imageKey, onPress }) {
+  const imageSource = data[imageKey]
+    ? { uri: data[imageKey] }
+    : require("../assets/default-vehicle.jpeg"); // fallback
+
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-      {/* LEFT — INFO */}
       <View style={styles.info}>
         {fields.map((field) => (
           <View key={field.key} style={{ marginBottom: 6 }}>
@@ -15,10 +18,9 @@ export default function BoxListItem({ data, fields, image, onPress }) {
         ))}
       </View>
 
-      {/* RIGHT — IMAGE */}
       <View style={styles.image}>
         <Image
-          source={image}
+          source={imageSource}
           style={styles.imageFile}
           resizeMode="contain"
         />
@@ -26,6 +28,7 @@ export default function BoxListItem({ data, fields, image, onPress }) {
     </TouchableOpacity>
   );
 }
+
 
 const styles = StyleSheet.create({
   card: {
@@ -37,6 +40,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     overflow: "hidden",
     minHeight: 120,
+    maxWidth: "40vw"
   },
   info: {
     flex: 1,
