@@ -1,8 +1,15 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import layout from "../../styles/layout";
-export default function VehicleDetailsScreen({ children }) {
+import TwoColumnLayout from "../../Components/TwoColumnLayout";
+import ScreenHeader from "../../Components/ScreenHeader";
+import buttons from "../../styles/buttons";
+import typography from "../../styles/typography";
+import DetailsList from "../../Components/DetailsList";
+
+
+export default function VehicleDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   const { item } = route.params;
@@ -10,81 +17,119 @@ export default function VehicleDetailsScreen({ children }) {
   return (
     <SafeAreaView style={layout.container}>
       {/* Header */}
-      
-      {/* Vehicle Details */}
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Vehicle ID:</Text>
-        <Text style={styles.value}>{item.vehicleId}</Text>
+      <ScreenHeader
+        title="Vehicle Details"
+        backText="Vehicles"
+        onBack={() => navigation.navigate("VehicleList")}
+      />
 
-        <Text style={styles.label}>License Plate Number:</Text>
-        <Text style={styles.value}>{item.licencePlateNum}</Text>
-
-        <Text style={styles.label}>Model:</Text>
-        <Text style={styles.value}>{item.model}</Text>
-
-        <Text style={styles.label}>Year:</Text>
-        <Text style={styles.value}>{item.year}</Text>
-
-        <Text style={styles.label}>Capacity:</Text>
-        <Text style={styles.value}>{item.capacity} kg</Text>
-
-        <Text style={styles.label}>Maintenance Status:</Text>
-        <Text style={styles.value}>{item.maintenanceStatus}</Text>
-
-        <Text style={styles.label}>Assigned Driver:</Text>
-        <Text style={styles.value}>
-          {item.assignedDriver ? item.assignedDriver : "Not Assigned"}
-        </Text>
+      <TwoColumnLayout
+  leftContent={
+    <View style={styles.leftBox}>
+      <View style={styles.imageWrapper}>
+        <Image
+          source={{ uri: item.imageUrl || "https://via.placeholder.com/150" }}
+          style={styles.vehicleImage}
+        />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("VehicleEdit", { item })}>
-        <Text style={styles.buttonText}>edit</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
-        <Text style={styles.buttonText}>Back</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonGroup}>
+        <TouchableOpacity
+          style={buttons.primary}
+          onPress={() => navigation.navigate("VehicleEdit", { item })}
+        >
+          <Text style={buttons.primaryText}>Edit Vehicle</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={buttons.secondary}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={buttons.secondaryText}>Back</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  }
+
+  rightContent={
+    <DetailsList
+      data={[
+        { label: "Vehicle ID", value: item.vehicleId },
+        { label: "License Plate", value: item.licencePlateNum },
+        { label: "Model", value: item.model },
+        { label: "Year", value: item.year },
+        { label: "Capacity", value: `${item.capacity} kg` },
+        { label: "Maintenance Status", value: item.maintenanceStatus },
+        { label: "Assigned Driver", value: item.assignedDriver || "Not Assigned" },
+      ]}
+    />
+  }
+/>
+
     </SafeAreaView>
   );
-};
+}
+
+/* -----------------------------
+   DETAIL ROW COMPONENT 
+-------------------------------- */
+const DetailRow = ({ label, value }) => (
+  <View style={styles.row}>
+    <Text style={[typography.text.muted, styles.label]}>{label}</Text>
+    <Text style={[typography.text.body, styles.value]}>{value}</Text>
+  </View>
+);
 
 const styles = StyleSheet.create({
-  container: {
+  /* LEFT COLUMN */
+  leftBox: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
-  },
-  headerContainer: {
-    backgroundColor: "#007bff",
-    padding: 20,
-  },
-  headerText: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  detailContainer: {
-    padding: 20,
-  },
-  label: {
-    fontWeight: "bold",
-    fontSize: 16,
-    marginTop: 10,
-  },
-  value: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  button: {
-    backgroundColor: "#007bff",
-    padding: 10,
-    margin: 20,
-    borderRadius: 5,
     alignItems: "center",
   },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+
+  imageWrapper: {
+    width: "100%",
+    height: 200,
+    backgroundColor: "#000",
+    borderRadius: 12,
+    marginBottom: 20,
+    overflow: "hidden",
+  },
+
+  vehicleImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+
+  buttonGroup: {
+    width: "100%",
+    marginTop: 20,
+    gap: 12,
+  },
+
+  /* RIGHT — DETAILS */
+  detailsBox: {
+    width: "100%",
+    backgroundColor: "#1c1c1c",
+    borderRadius: 12,
+    padding: 20,
+  },
+
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: "#333",
+  },
+
+  label: {
+    flex: 1,
+  },
+
+  value: {
+    flex: 1,
+    textAlign: "right",
   },
 });
-
-

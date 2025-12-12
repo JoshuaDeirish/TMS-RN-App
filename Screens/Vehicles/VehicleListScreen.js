@@ -20,13 +20,33 @@ import SearchBar from "../../Components/SearchBar";
 import BoxList from "../../Components/BoxList";
 
 const sampleVehicles = [
-  { 
+  {
     id: "1",
     vehicleId: "V001",
     licencePlateNum: "ABC-1234",
     model: "Model X",
     year: 2022,
     capacity: 5000,
+    maintenanceStatus: "Good",
+    assignedDriver: "John Doe"
+  },
+  {
+    id: "2",
+    vehicleId: "V002",
+    licencePlateNum: "ABC-1914",
+    model: "Model z",
+    year: 2025,
+    capacity: 50000,
+    maintenanceStatus: "Needs Repair",
+    assignedDriver: "John Moe"
+  },
+  {
+    id: "3",
+    vehicleId: "V012",
+    licencePlateNum: "FWS-1592",
+    model: "Forunner",
+    year: 2020,
+    capacity: 1000,
     maintenanceStatus: "Good",
     assignedDriver: "John Doe"
   }
@@ -56,14 +76,16 @@ export default function VehicleListScreen() {
         <FilterButton label="Inactive" count={inactiveCount} onPress={() => setActiveFilter("Inactive")} />
       </View>
       <View style={layout.subContainer}>
-        <BoxList data={vehicles} fields={[
-          "licencePlateNum",
-          "model",
-          "year",
-          "maintenanceStatus"
-        ]} 
-        image={require("../../assets/favicon.png")} 
-        onItemPress={(item) => navigation.navigate("VehicleDetail", { item })}
+        <BoxList
+          data={vehicles}
+          fields={[
+            { key: "licencePlateNum", label: "Plate" },
+            { key: "model", label: "Model" },
+            { key: "year", label: "Year" },
+            { key: "maintenanceStatus", label: "Status" }
+          ]}
+          image={require("../../assets/default-vehicle.jpeg")}
+          onItemPress={(item) => navigation.navigate("VehicleDetail", { item })}
         />
       </View>
 

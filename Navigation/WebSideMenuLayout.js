@@ -55,7 +55,7 @@ const SCREENS = [
 const Stack = createStackNavigator();
 
 export default function WebSideMenuLayout() {
-  const [activeScreen, setActiveScreen] = useState('Style Guide');
+  const [activeScreen, setActiveScreen] = useState('Vehicles');
   const ActiveComponent = SCREENS.find(screen => screen.name === activeScreen).component;
 
   return (
@@ -63,7 +63,6 @@ export default function WebSideMenuLayout() {
       {/* Side Menu */}
       <View style={styles.sideMenu}>
         <View style={styles.header}>
-          <Image source={require('../assets/favicon.png')} style={styles.logo} />
           <Text style={styles.headerText}>TMS</Text>
         </View>
         <View style={{ flex: 1 }} contentContainerStyle={styles.menuList}>

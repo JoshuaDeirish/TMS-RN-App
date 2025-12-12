@@ -114,7 +114,7 @@ export default function StyleGuideScreen() {
             { key: "model", label: "Model" },
             { key: "year", label: "Year" },
           ]}
-          image={require("../../assets/favicon.png")}
+          image={require("../../assets/default-vehicle.jpeg")}
           onItemPress={() => { }}
         />
 

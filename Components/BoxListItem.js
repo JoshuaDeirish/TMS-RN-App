@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     overflow: "hidden",
     minHeight: 120,
-    maxWidth: "40vw"
+    maxWidth: "49%"
   },
   info: {
     flex: 1,

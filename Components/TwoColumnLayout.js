@@ -27,10 +27,12 @@ const styles = StyleSheet.create({
     columnGap: 20,
   },
   leftContainer: {
-    flex: 4,
+    flex: .5,
     backgroundColor: colours.headerBackground,
     padding: 20,
     borderRadius: 15,
+    alignSelf: "flex-start",
+    minHeight: 300,
     //40%
   },
   rightContainer: {
