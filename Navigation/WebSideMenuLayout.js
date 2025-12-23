@@ -55,7 +55,7 @@ const SCREENS = [
 const Stack = createStackNavigator();
 
 export default function WebSideMenuLayout() {
-  const [activeScreen, setActiveScreen] = useState('Vehicles');
+  const [activeScreen, setActiveScreen] = useState('Warehouses');
   const ActiveComponent = SCREENS.find(screen => screen.name === activeScreen).component;
 
   return (
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   sideMenu: {
     width: 350,
-    backgroundColor: '#2c2929ff',
+    backgroundColor: '#2C2C2C',
     paddingVertical: 10,
     padding: 16,
     height: '100vh',  

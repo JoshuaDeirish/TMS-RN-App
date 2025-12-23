@@ -6,6 +6,10 @@ export default {
     flex: 1,
     backgroundColor: colours.background,
   },
+  containerTwo: {
+    flex: 1,
+    backgroundColor: colours.headerBackground,
+  },
   subContainer: {
     flex: 1,
     padding: 20,

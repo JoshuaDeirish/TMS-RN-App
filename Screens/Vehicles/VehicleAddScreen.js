@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 // components
@@ -14,7 +14,7 @@ export default function VehicleAddScreen() {
   const [activeTab, setActiveTab] = useState("details");
 
   return (
-    <View style={layout.container}>
+    <SafeAreaView style={layout.container}>
       <ScreenHeader
         title="Add Vehicle"
         backText="Vehicles"
@@ -61,7 +61,7 @@ export default function VehicleAddScreen() {
           </>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

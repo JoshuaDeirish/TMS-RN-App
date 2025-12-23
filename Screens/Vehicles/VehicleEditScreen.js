@@ -9,7 +9,7 @@ import layout from '../../styles/layout';
 
 export default function VehicleEditScreen() {
   const route = useRoute();
-  const { item } = route.params; // receive vehicle object
+  const { item } = route.params; 
   const [activeTab, setActiveTab] = useState("details");
 
   // Prefill form state

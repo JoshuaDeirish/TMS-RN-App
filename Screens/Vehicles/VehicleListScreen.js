@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
-  FlatList,
   SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
-  Image,
-  TextInput
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import typography from "../../styles/typography";
 import HeaderContainer from "../../Components/HeaderContainer";
 import IconButton from "../../Components/IconButton";
 import FilterButton from "../../Components/FilterButton";

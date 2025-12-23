@@ -31,7 +31,7 @@ export function Checkbox({ checked, onChange }) {
       //       borderRadius: 2,
       //     }}
       //   />
-      <Entypo name="check" size={18} color="black" />
+      <Entypo name="check" size={18} color="white" />
       )}
     </Pressable>
   );

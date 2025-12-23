@@ -58,7 +58,7 @@ export default function VehicleDetailsScreen() {
         { label: "License Plate", value: item.licencePlateNum },
         { label: "Model", value: item.model },
         { label: "Year", value: item.year },
-        { label: "Capacity", value: `${item.capacity} kg` },
+        { label: "Capacity", value: `${item.capacity} tons` },
         { label: "Maintenance Status", value: item.maintenanceStatus },
         { label: "Assigned Driver", value: item.assignedDriver || "Not Assigned" },
       ]}
@@ -70,15 +70,7 @@ export default function VehicleDetailsScreen() {
   );
 }
 
-/* -----------------------------
-   DETAIL ROW COMPONENT 
--------------------------------- */
-const DetailRow = ({ label, value }) => (
-  <View style={styles.row}>
-    <Text style={[typography.text.muted, styles.label]}>{label}</Text>
-    <Text style={[typography.text.body, styles.value]}>{value}</Text>
-  </View>
-);
+
 
 const styles = StyleSheet.create({
   /* LEFT COLUMN */
