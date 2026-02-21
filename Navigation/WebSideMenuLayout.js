@@ -24,7 +24,7 @@ import TripStack from './Stacks/TripStack';
 import VehiclesStack from './Stacks/VehicleStack';
 import WarehouseStack from './Stacks/WarehouseStack';
 import StyleGuideScreen from '../Screens/Settings/StyleGuide';
-import colours from '../styles/colours';
+import LoginScreen from '../Screens/Auth/LoginScreen';
 
 // Menu array
 const SCREENS = [
@@ -44,6 +44,7 @@ const SCREENS = [
   { name: 'Profile', component: ProfileStack },
   { name: 'Settings', component: SettingsStack },
   { name: 'Style Guide', component: StyleGuideScreen },
+  { name: 'Login', component: LoginScreen },
   { name: 'Trailers', component: TrailerStack },
   { name: 'Trips', component: TripStack },
   { name: 'Vehicles', component: VehiclesStack },
@@ -55,7 +56,7 @@ const SCREENS = [
 const Stack = createStackNavigator();
 
 export default function WebSideMenuLayout() {
-  const [activeScreen, setActiveScreen] = useState('Warehouses');
+  const [activeScreen, setActiveScreen] = useState('Login');
   const ActiveComponent = SCREENS.find(screen => screen.name === activeScreen).component;
 
   return (

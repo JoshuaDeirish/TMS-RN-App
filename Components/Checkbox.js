@@ -14,7 +14,6 @@ export function Checkbox({ checked, onChange }) {
         height: 24,
         borderRadius: 4,
         borderWidth: 2,
-        //margin: 8,
         marginRight: 25,
         borderColor: checked ? "#4A90E2" : colours.border,
         backgroundColor: checked ? "#4A90E2" : "transparent",
@@ -23,14 +22,6 @@ export function Checkbox({ checked, onChange }) {
       }}
     >
       {checked && (
-      //   <View
-      //     style={{
-      //       width: 12,
-      //       height: 12,
-      //       backgroundColor: "#999",
-      //       borderRadius: 2,
-      //     }}
-      //   />
       <Entypo name="check" size={18} color="white" />
       )}
     </Pressable>

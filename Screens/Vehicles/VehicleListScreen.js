@@ -12,49 +12,31 @@ import { AntDesign } from '@expo/vector-icons';
 import layout from "../../styles/layout";
 import SearchBar from "../../Components/SearchBar";
 import BoxList from "../../Components/BoxList";
+import { getVehicles } from "../../api/vehicleAPI";
 
-const sampleVehicles = [
-  {
-    id: "1",
-    vehicleId: "V001",
-    licencePlateNum: "ABC-1234",
-    model: "Model X",
-    year: 2022,
-    capacity: 5000,
-    maintenanceStatus: "Good",
-    assignedDriver: "John Doe"
-  },
-  {
-    id: "2",
-    vehicleId: "V002",
-    licencePlateNum: "ABC-1914",
-    model: "Model z",
-    year: 2025,
-    capacity: 50000,
-    maintenanceStatus: "Needs Repair",
-    assignedDriver: "John Moe"
-  },
-  {
-    id: "3",
-    vehicleId: "V012",
-    licencePlateNum: "FWS-1592",
-    model: "Forunner",
-    year: 2020,
-    capacity: 1000,
-    maintenanceStatus: "Good",
-    assignedDriver: "John Doe"
-  }
-];
 
 export default function VehicleListScreen() {
-  const [vehicles, setVehicles] = useState(sampleVehicles); // load initial data
+  const [vehicles, setVehicles] = useState(); // load initial data
   const [searchQuery, setSearchQuery] = useState('');
-  const allCount = vehicles.length;
-  const activeCount = vehicles.filter(v => v.maintenanceStatus === "Good").length;
-  const inactiveCount = vehicles.filter(v => v.maintenanceStatus !== "Good").length;
+  const allCount = 90;
+  // const activeCount = vehicles.filter(v => v.maintenanceStatus === "Good").length;
+  // const inactiveCount = vehicles.filter(v => v.maintenanceStatus !== "Good").length;
 
   const [activeFilter, setActiveFilter] = useState("All");
   const navigation = useNavigation();
+
+  useEffect(() => {
+
+    const load = async () => {
+      try {
+        const data = await getVehicles();
+        setVehicles(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    load();
+  },[])
 
   return (
     <SafeAreaView style={layout.container}>
@@ -65,12 +47,12 @@ export default function VehicleListScreen() {
       />} />
       <View style={layout.section}>
         <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
-        <FilterButton label="All" count={allCount} onPress={() => setActiveFilter("All")} />
+        {/* <FilterButton label="All" count={allCount} onPress={() => setActiveFilter("All")} />
         <FilterButton label="Active" count={activeCount} onPress={() => setActiveFilter("Active")} />
-        <FilterButton label="Inactive" count={inactiveCount} onPress={() => setActiveFilter("Inactive")} />
+        <FilterButton label="Inactive" count={inactiveCount} onPress={() => setActiveFilter("Inactive")} /> */}
       </View>
       <View style={layout.subContainer}>
-        <BoxList
+        {/* <BoxList
           data={vehicles}
           fields={[
             { key: "licencePlateNum", label: "Plate" },
@@ -80,7 +62,7 @@ export default function VehicleListScreen() {
           ]}
           image={require("../../assets/default-vehicle.jpeg")}
           onItemPress={(item) => navigation.navigate("VehicleDetail", { item })}
-        />
+        /> */}
       </View>
 
     </SafeAreaView>
