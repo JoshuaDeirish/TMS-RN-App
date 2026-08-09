@@ -25,12 +25,15 @@ export default function VehicleListScreen() {
   const [activeFilter, setActiveFilter] = useState("All");
   const navigation = useNavigation();
 
+  
+
   useEffect(() => {
 
     const load = async () => {
       try {
         const data = await getVehicles();
         setVehicles(data);
+        console.log(vehicles)
       } catch (error) {
         console.log(error);
       }
