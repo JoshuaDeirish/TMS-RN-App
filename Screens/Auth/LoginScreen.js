@@ -22,17 +22,29 @@ export default function LoginScreen() {
   }
 
   const handleSubmit = async () => {
-    setError("")
+    if (loading) return;
+
+    setError("");
+
+    if (!form.email.trim() || !form.password) {
+      setError("Enter your email and password.");
+      return;
+    }
+
+    // setLoading(true) was missing, so the button never showed its busy state
+    // and could be pressed repeatedly, firing several logins at once.
+    setLoading(true);
 
     try {
       await login({
-        email: form.email,
+        email: form.email.trim(),
         password: form.password
       });
+      // On success the navigator swaps to the app tree; nothing to do here.
     } catch (err) {
       setError(
-        err?.detail ||
         err?.message ||
+        err?.detail ||
         "Login failed"
       );
     } finally {
@@ -52,12 +64,18 @@ export default function LoginScreen() {
           value={form.email}
           onChangeText={(value) => update("email", value)}
         />
+        {/* onChange passes an event object, not the text, so form.password
+            stayed "" forever and every login attempt sent a blank password.
+            React Native's text callback is onChangeText. */}
         <TextInput
           style={input.input}
           placeholder="Password"
           secureTextEntry
+          autoCapitalize="none"
           value={form.password}
-          onChange={(value) => update("password", value)}
+          onChangeText={(value) => update("password", value)}
+          onSubmitEditing={handleSubmit}
+          returnKeyType="go"
         />
         {
           error ? (
