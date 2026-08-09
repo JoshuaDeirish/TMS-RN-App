@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
-import { geocodeWithOpenCage } from '../Services/geocodingAPI'; 
+import geocodeWithOpenCage from '../Services/geocodingAPI';
 
 const RouteMapView = ({ origin, destination }) => {
   const [originCoords, setOriginCoords] = useState(null);

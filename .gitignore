@@ -1,3 +1,26 @@
 # dependencies
 node_modules/
 .env
+.env.*
+!.env.example
+
+# expo
+.expo/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+*.swp
+
+# archived git directory (superseded by .git)
+.git_broken/
