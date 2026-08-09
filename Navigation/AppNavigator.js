@@ -6,6 +6,7 @@ import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
 import { useAuth } from '../Services/Context/AuthContext';
 import colours from '../styles/colours';
+import navigationTheme from '../styles/navigationTheme';
 
 /**
  * Chooses between the signed-out and signed-in navigation trees.
@@ -27,7 +28,7 @@ export default function AppNavigator() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navigationTheme}>
       {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );

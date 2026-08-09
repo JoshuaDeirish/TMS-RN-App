@@ -1,73 +1,137 @@
 // styles/buttons.js
+import colours from "./colours";
+import { spacing, radius, fontSize, fontWeight, hitTarget, elevation } from "./tokens";
+
+/**
+ * Buttons.
+ *
+ * Fixes carried over from the original:
+ *  - `maxWidth: "20vw"` was a CSS viewport unit, which React Native cannot
+ *    parse; it also capped buttons at a fifth of the screen on web, which is
+ *    why long labels were cramped.
+ *  - `fontWeight: 'semi-bold'` is not a valid RN weight, so it was ignored.
+ *  - Colours were Bootstrap defaults (#007bff, #6c757d, #dc3545) rather than
+ *    the app's own accent, so buttons never matched the brand.
+ *  - Height was ~34pt; controls are now at least 44pt for comfortable tapping.
+ */
 
 const baseButton = {
-  paddingVertical: 10,
-  paddingHorizontal: 16,
-  borderRadius: 8,
+  minHeight: hitTarget.min,
+  paddingVertical: spacing.md,
+  paddingHorizontal: spacing.xl,
+  borderRadius: radius.md,
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "row",
-  margin: 3,
-  maxWidth: "20vw",
+  columnGap: spacing.sm,
 };
 
+const baseText = {
+  fontSize: fontSize.md,
+  fontWeight: fontWeight.semibold,
+  textAlign: "center",
+};
 
 const buttons = {
-  // 🔵 Primary Button
+  base: baseButton,
+
+  // Primary action
   primary: {
     ...baseButton,
-    backgroundColor: '#007bff',
+    backgroundColor: colours.accent,
+    ...elevation.sm,
   },
   primaryText: {
-  color: "#fff",
-  fontWeight: "600", 
-  fontSize: 16,
-},
+    ...baseText,
+    color: colours.onAccent,
+  },
 
-  // ⚪ Secondary Button
+  // Secondary / neutral action
   secondary: {
     ...baseButton,
-    backgroundColor: '#6c757d',
+    backgroundColor: colours.surface3,
+    borderWidth: 1,
+    borderColor: colours.borderStrong,
   },
   secondaryText: {
-    color: '#fff',
-    fontWeight: 'semi-bold',
-    fontSize: 18,
+    ...baseText,
+    color: colours.textPrimary,
   },
 
-  // 🔴 Danger Button
+  // Destructive action
   danger: {
     ...baseButton,
-    backgroundColor: '#dc3545',
+    backgroundColor: colours.danger,
   },
   dangerText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    ...baseText,
+    color: colours.onStatus,
   },
 
-  // 🚫 Disabled Button
+  // Low-emphasis destructive: reads as dangerous without shouting
+  dangerQuiet: {
+    ...baseButton,
+    backgroundColor: colours.dangerSoft,
+    borderWidth: 1,
+    borderColor: colours.danger,
+  },
+  dangerQuietText: {
+    ...baseText,
+    color: colours.danger,
+  },
+
   disabled: {
     ...baseButton,
-    backgroundColor: '#cccccc',
+    backgroundColor: colours.disabledSurface,
+    borderWidth: 1,
+    borderColor: colours.border,
   },
   disabledText: {
-    color: '#666666',
-    fontWeight: 'bold',
-    fontSize: 16,
+    ...baseText,
+    color: colours.disabledText,
   },
 
-  // 🔲 Optional: Outline Button (for filters or tags)
+  // Outline - used for filters and tags
   outline: {
     ...baseButton,
-    backgroundColor: 'transparent',
+    backgroundColor: colours.transparent,
     borderWidth: 1,
-    borderColor: '#007bff',
+    borderColor: colours.accent,
   },
   outlineText: {
-    color: '#007bff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    ...baseText,
+    color: colours.accent,
+  },
+
+  // Text-only, for tertiary actions in tight spaces
+  ghost: {
+    ...baseButton,
+    backgroundColor: colours.transparent,
+    paddingHorizontal: spacing.md,
+  },
+  ghostText: {
+    ...baseText,
+    color: colours.textSecondary,
+  },
+
+  // Compact variant for toolbars and filter rows
+  small: {
+    minHeight: 34,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.sm,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    columnGap: spacing.xs,
+  },
+  smallText: {
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.medium,
+  },
+
+  pressed: {
+    opacity: 0.85,
   },
 };
 

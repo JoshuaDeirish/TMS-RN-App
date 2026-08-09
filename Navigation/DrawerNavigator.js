@@ -5,6 +5,8 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '
 import { useAuth } from '../Services/Context/AuthContext';
 import { sectionsForRole } from './navigationConfig';
 import colours from '../styles/colours';
+import { drawerScreenOptions } from '../styles/navigationTheme';
+import { spacing } from '../styles/tokens';
 
 const Drawer = createDrawerNavigator();
 
@@ -40,6 +42,7 @@ export default function DrawerNavigator() {
     <Drawer.Navigator
       initialRouteName={sections[0]?.name ?? 'Dashboard'}
       drawerContent={(props) => <DrawerContent {...props} />}
+      screenOptions={drawerScreenOptions}
     >
       {sections.map(({ name, component }) => (
         <Drawer.Screen key={name} name={name} component={component} />

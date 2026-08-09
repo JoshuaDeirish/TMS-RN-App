@@ -1,8 +1,7 @@
 import React from "react";
 import { View, ScrollView, StyleSheet, useWindowDimensions } from "react-native";
 import colours from "../styles/colours";
-
-const STACK_BELOW = 900; // px of viewport width
+import { spacing, radius, breakpoint } from "../styles/tokens";
 
 /**
  * Side-by-side detail/form layout that stacks on narrow screens.
@@ -17,7 +16,7 @@ const STACK_BELOW = 900; // px of viewport width
  */
 export default function TwoColumnLayout({ leftContent, rightContent }) {
   const { width } = useWindowDimensions();
-  const stacked = width < STACK_BELOW;
+  const stacked = width < breakpoint.stack;
 
   if (stacked) {
     return (
@@ -49,13 +48,15 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     flexDirection: "row",
-    padding: 20,
-    columnGap: 20,
+    padding: spacing.xxl,
+    columnGap: spacing.xxl,
   },
   panel: {
-    backgroundColor: colours.headerBackground,
-    padding: 20,
-    borderRadius: 15,
+    backgroundColor: colours.surface1,
+    padding: spacing.xxl,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colours.border,
   },
   leftContainer: {
     flex: 1,
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
   // Stacked (narrow) layout
   stackScroll: { flex: 1 },
   stackContent: {
-    padding: 16,
-    rowGap: 16,
+    padding: spacing.lg,
+    rowGap: spacing.lg,
   },
 });
