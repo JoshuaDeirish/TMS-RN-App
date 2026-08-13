@@ -13,6 +13,7 @@ import DashboardStack from './Stacks/DashboardStack';
 import ClientStack from './Stacks/ClientStack';
 import ContractStack from './Stacks/ContractStack';
 import DocumentStack from './Stacks/DocumentStack';
+import DriverStack from './Stacks/DriverStack';
 import ExpenseLogStack from './Stacks/ExpenseLogStack';
 import FuelLogStack from './Stacks/FuelLogStack';
 import FuelStationStack from './Stacks/FuelStationStack';
@@ -22,6 +23,7 @@ import LocationStack from './Stacks/LocationStack';
 import MaintenanceRecordStack from './Stacks/MaintenanceRecordStack';
 import MaintenanceStationStack from './Stacks/MaintenanceStationStack';
 import NotificationStack from './Stacks/NotificationStack';
+import RouteStack from './Stacks/RouteStack';
 import ProfileStack from './Stacks/ProfileStack';
 import SettingsStack from './Stacks/SettingsStack';
 import TrailerStack from './Stacks/TrailerStack';
@@ -46,6 +48,7 @@ export const SECTIONS = [
   { name: 'Dashboard',            component: DashboardStack,           roles: null },
   { name: 'Loads',                component: LoadStack,                roles: null },
   { name: 'Trips',                component: TripStack,                roles: null },
+  { name: 'Routes',               component: RouteStack,               roles: null },
   { name: 'Vehicles',             component: VehicleStack,             roles: null },
   { name: 'Trailers',             component: TrailerStack,             roles: null },
   { name: 'Locations',            component: LocationStack,            roles: null },
@@ -55,6 +58,9 @@ export const SECTIONS = [
   { name: 'Maintenance Records',  component: MaintenanceRecordStack,   roles: null },
   { name: 'Maintenance Stations', component: MaintenanceStationStack,  roles: null },
   { name: 'Fuel Stations',        component: FuelStationStack,         roles: null },
+
+  { name: 'Drivers',      component: DriverStack,
+    roles: [ADMIN, DISPATCHER, HR, SAFETY, OPERATOR, MANAGER, ACCOUNTING, DRIVER] },
 
   { name: 'Fuel Logs',    component: FuelLogStack,
     roles: [ADMIN, ACCOUNTING, MANAGER, DISPATCHER, OPERATOR, DRIVER] },
