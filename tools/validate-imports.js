@@ -58,6 +58,40 @@ function parse(file) {
   }
 }
 
+/**
+ * Every name a binding target introduces.
+ *
+ * Handles destructuring, so `export const { A, B } = f()` reports A and B.
+ * Reading only `id.name` missed those entirely, which made the checker report
+ * valid named imports as missing exports.
+ */
+function bindingNames(node, out = []) {
+  if (!node) return out;
+
+  switch (node.type) {
+    case "Identifier":
+      out.push(node.name);
+      break;
+    case "ObjectPattern":
+      node.properties.forEach((p) =>
+        bindingNames(p.type === "RestElement" ? p.argument : p.value, out)
+      );
+      break;
+    case "ArrayPattern":
+      node.elements.forEach((el) => bindingNames(el, out));
+      break;
+    case "AssignmentPattern":   // const { a = 1 } = x
+      bindingNames(node.left, out);
+      break;
+    case "RestElement":
+      bindingNames(node.argument, out);
+      break;
+    default:
+      break;
+  }
+  return out;
+}
+
 function exportsOf(ast) {
   const info = { default: false, named: new Set() };
   for (const n of ast.program.body) {
@@ -67,7 +101,9 @@ function exportsOf(ast) {
       if (n.declaration) {
         const d = n.declaration;
         if (d.type === "VariableDeclaration") {
-          d.declarations.forEach((v) => v.id.name && info.named.add(v.id.name));
+          d.declarations.forEach((v) =>
+            bindingNames(v.id).forEach((name) => info.named.add(name))
+          );
         } else if (d.id) {
           info.named.add(d.id.name);
         }

@@ -26,6 +26,7 @@ function toFormState(load) {
     pickup_time: fromISO(load.pickup_time),
     expected_delivery: fromISO(load.expected_delivery),
     assigned_vehicle: load.assigned_vehicle ?? null,
+    assigned_driver: load.assigned_driver ?? null,
     trailer: load.trailer ?? null,
     notes: load.notes ?? "",
   };
