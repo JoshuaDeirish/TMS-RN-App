@@ -20,6 +20,7 @@ import FuelStationStack from './Stacks/FuelStationStack';
 import InvoiceStack from './Stacks/InvoiceStack';
 import LoadStack from './Stacks/LoadStack';
 import LocationStack from './Stacks/LocationStack';
+import MessageStack from './Stacks/MessageStack';
 import MaintenanceRecordStack from './Stacks/MaintenanceRecordStack';
 import MaintenanceStationStack from './Stacks/MaintenanceStationStack';
 import NotificationStack from './Stacks/NotificationStack';
@@ -54,6 +55,7 @@ export const SECTIONS = [
   { name: 'Locations',            component: LocationStack,            roles: null },
   { name: 'Warehouses',           component: WarehouseStack,           roles: null },
   { name: 'Documents',            component: DocumentStack,            roles: null },
+  { name: 'Messages',             component: MessageStack,             roles: null },
   { name: 'Notifications',        component: NotificationStack,        roles: null },
   { name: 'Maintenance Records',  component: MaintenanceRecordStack,   roles: null },
   { name: 'Maintenance Stations', component: MaintenanceStationStack,  roles: null },

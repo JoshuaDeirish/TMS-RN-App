@@ -29,3 +29,18 @@ export const updateCurrentUser = async (data) => {
   const response = await api.patch("/auth/me/", data);
   return response.data;
 };
+
+/**
+ * Change your own password.
+ *
+ * The only route by which a non-admin can do this: /auth/me/ does not expose
+ * the field and /users/ is restricted to admins and HR. The current password
+ * is required by the server, so a stolen token alone cannot seize an account.
+ */
+export const changePassword = async ({ current_password, new_password }) => {
+  const response = await api.post("/auth/change-password/", {
+    current_password,
+    new_password,
+  });
+  return response.data;
+};
