@@ -2,6 +2,7 @@
  * One CRUD client per TMS endpoint, all built from the same factory.
  * Import what you need:  import { loadAPI, clientAPI } from "../../api/tmsAPI";
  */
+import api from "../Services/apiConfig";
 import { createResourceApi } from "./resource";
 
 // Workforce
@@ -45,6 +46,21 @@ export const vehicleExpenseLogAPI = createResourceApi("vehicle-expense-logs");
 
 // Documents and notifications
 export const documentAPI = createResourceApi("documents");
-export const notificationAPI = createResourceApi("notification-logs");
+
+/**
+ * Notifications, plus the two bulk actions the server exposes.
+ *
+ * The list is already scoped to the signed-in user server-side, so these never
+ * need a user id: "mine" is the only thing they can mean.
+ */
+export const notificationAPI = {
+  ...createResourceApi("notification-logs"),
+
+  markAllRead: async () =>
+    (await api.post("/notification-logs/mark-all-read/", {})).data,
+
+  unreadCount: async () =>
+    (await api.get("/notification-logs/unread-count/")).data?.unread ?? 0,
+};
 
 export { asArray } from "./resource";
