@@ -43,8 +43,10 @@ export default function DashboardListScreen() {
             {name ? `Welcome back, ${name}.` : "Welcome back."}
           </Text>
           {role ? (
-            <Text style={[typography.text.muted, styles.role]}>
-              Signed in as {role}
+            <Text style={typography.text.muted}>
+              {/* Only the role is capitalised - applying it to the whole line
+                  rendered "Signed In As Driver". */}
+              Signed in as <Text style={styles.role}>{role}</Text>
             </Text>
           ) : null}
         </View>
