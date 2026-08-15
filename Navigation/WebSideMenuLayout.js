@@ -1,94 +1,78 @@
 // navigation/WebSideMenuLayout.js
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { ScrollView } from 'react-native-web';
-// Stacks
-import DashboardStack from './Stacks/DashboardStack';
-import ClientStack from './Stacks/ClientStack';
-import ContractStack from './Stacks/ContractStack';
-import DocumentStack from './Stacks/DocumentStack';
-import ExpenseLogStack from './Stacks/ExpenseLogStack';
-import FuelLogStack from './Stacks/FuelLogStack';
-import FuelStationStack from './Stacks/FuelStationStack';
-import InvoiceStack from './Stacks/InvoiceStack';
-import LoadStack from './Stacks/LoadStack';
-import LocationStack from './Stacks/LocationStack';
-import MaintenanceRecordStack from './Stacks/MaintenanceRecordStack';
-import MaintenanceStationStack from './Stacks/MaintenanceStationStack';
-import NotificationStack from './Stacks/NotificationStack';
-import ProfileStack from './Stacks/ProfileStack';
-import SettingsStack from './Stacks/SettingsStack';
-import TrailerStack from './Stacks/TrailerStack';
-import TripStack from './Stacks/TripStack';
-import VehiclesStack from './Stacks/VehicleStack';
-import WarehouseStack from './Stacks/WarehouseStack';
-import StyleGuideScreen from '../Screens/Settings/StyleGuide';
-import LoginScreen from '../Screens/Auth/LoginScreen';
+import React, { useState, useMemo } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 
-// Menu array
-const SCREENS = [
-  { name: 'Dashboard', component: DashboardStack },
-  { name: 'Clients', component: ClientStack },
-  { name: 'Contracts', component: ContractStack },
-  { name: 'Documents', component: DocumentStack },
-  { name: 'Expense Logs', component: ExpenseLogStack },
-  { name: 'Fuel Logs', component: FuelLogStack },
-  { name: 'Fuel Stations', component: FuelStationStack },
-  { name: 'Invoices', component: InvoiceStack },
-  { name: 'Loads', component: LoadStack },
-  { name: 'Locations', component: LocationStack },
-  { name: 'Maintenance Logs', component: MaintenanceRecordStack },
-  { name: 'Maintenance Stations', component: MaintenanceStationStack },
-  { name: 'Notifications', component: NotificationStack },
-  { name: 'Profile', component: ProfileStack },
-  { name: 'Settings', component: SettingsStack },
-  { name: 'Style Guide', component: StyleGuideScreen },
-  { name: 'Login', component: LoginScreen },
-  { name: 'Trailers', component: TrailerStack },
-  { name: 'Trips', component: TripStack },
-  { name: 'Vehicles', component: VehiclesStack },
-  { name: 'Warehouses', component: WarehouseStack },
-  
-];
+import { useAuth } from '../Services/Context/AuthContext';
+import { sectionsForRole } from './navigationConfig';
+import colours from '../styles/colours';
 
-
-const Stack = createStackNavigator();
-
+/**
+ * Wide-screen web layout: a persistent side menu instead of a drawer.
+ *
+ * The menu is built from the shared navigationConfig, so it shows exactly the
+ * sections the signed-in role may use. It previously listed every section for
+ * everyone and included a "Login" entry that rendered the login form inside the
+ * authenticated app.
+ */
 export default function WebSideMenuLayout() {
-  const [activeScreen, setActiveScreen] = useState('Login');
-  const ActiveComponent = SCREENS.find(screen => screen.name === activeScreen).component;
+  const { user, role, logout } = useAuth();
+
+  const sections = useMemo(() => sectionsForRole(role), [role]);
+  const [activeScreen, setActiveScreen] = useState(null);
+
+  // Fall back to the first permitted section rather than indexing blindly -
+  // `SCREENS.find(...).component` threw if the active name was not in the list.
+  const active =
+    sections.find((s) => s.name === activeScreen) ?? sections[0] ?? null;
+
+  const displayName =
+    [user?.first_name, user?.last_name].filter(Boolean).join(' ') || user?.email || '';
+
+  if (!active) {
+    return (
+      <View style={styles.empty}>
+        <Text style={styles.emptyText}>
+          Your account has no sections assigned. Contact an administrator.
+        </Text>
+      </View>
+    );
+  }
+
+  const ActiveComponent = active.component;
 
   return (
     <View style={styles.container}>
-      {/* Side Menu */}
       <View style={styles.sideMenu}>
         <View style={styles.header}>
           <Text style={styles.headerText}>TMS</Text>
         </View>
-        <View style={{ flex: 1 }} contentContainerStyle={styles.menuList}>
-          {SCREENS.map(screen => (
+
+        <View style={styles.identity}>
+          <Text style={styles.name} numberOfLines={1}>{displayName}</Text>
+          {role ? <Text style={styles.role}>{role.toUpperCase()}</Text> : null}
+        </View>
+
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.menuList}>
+          {sections.map((screen) => (
             <TouchableOpacity
               key={screen.name}
-              style={[styles.menuItem, activeScreen === screen.name && styles.activeMenuItem]}
+              style={[styles.menuItem, active.name === screen.name && styles.activeMenuItem]}
               onPress={() => setActiveScreen(screen.name)}
             >
               <Text style={styles.menuText}>{screen.name}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
 
+        <TouchableOpacity style={styles.logout} onPress={logout}>
+          <Text style={styles.logoutText}>Log out</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* Active View */}
-      <View style={styles.content}>
-    <Stack.Navigator >
-      <Stack.Screen
-        name={activeScreen}
-        component={ActiveComponent}
-        options={{ headerShown: false }}
-      />
-      </Stack.Navigator>
+      {/* Rendering the component directly avoids remounting a one-screen
+          Stack.Navigator whose route name changes on every menu click. */}
+      <View style={styles.content} key={active.name}>
+        <ActiveComponent />
       </View>
     </View>
   );
@@ -100,12 +84,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sideMenu: {
-    width: 350,
+    width: 300,
     backgroundColor: '#2C2C2C',
     paddingVertical: 10,
-    padding: 16,
-    height: '100vh',  
-    overflow: 'scroll',
+    height: '100%',
   },
   header: {
     flexDirection: 'row',
@@ -114,16 +96,19 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
     borderBottomWidth: 1,
   },
-  logo: {
-    width: 32,
-    height: 32,
-    marginRight: 8,
-  },
   headerText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#ffffff',
   },
+  identity: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colours.border,
+  },
+  name: { color: colours.textPrimary, fontSize: 15, fontWeight: '600' },
+  role: { color: colours.textMuted, fontSize: 11, marginTop: 2, letterSpacing: 1 },
   menuList: {
     paddingBottom: 20,
   },
@@ -136,10 +121,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   menuText: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#ffffff',
   },
+  logout: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: colours.border,
+  },
+  logoutText: { color: colours.danger, fontWeight: '600' },
   content: {
     flex: 1,
   },
+  empty: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
+  emptyText: { color: colours.textSecondary, textAlign: 'center' },
 });

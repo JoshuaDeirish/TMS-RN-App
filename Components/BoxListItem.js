@@ -1,61 +1,81 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import typography from "../styles/typography";
 
-export default function BoxListItem({ data, fields, imageKey, onPress }) {
-  const imageSource = data[imageKey]
-    ? { uri: data[imageKey] }
-    : require("../assets/default-vehicle.jpeg"); // fallback
+import colours from "../styles/colours";
+import typography from "../styles/typography";
+import { spacing, radius } from "../styles/tokens";
+
+export default function BoxListItem({ data, fields, imageKey, image, onPress }) {
+  // Accept either a per-row image key or a shared fallback image passed by BoxList.
+  const imageSource =
+    (imageKey && data[imageKey] ? { uri: data[imageKey] } : null) ??
+    image ??
+    require("../assets/default-vehicle.jpeg");
 
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={onPress}
+      accessibilityRole="button"
+      activeOpacity={0.75}
+    >
       <View style={styles.info}>
         {fields.map((field) => (
-          <View key={field.key} style={{ marginBottom: 6 }}>
+          <View key={field.key} style={styles.fieldRow}>
             <Text style={typography.detail.label}>{field.label}</Text>
-            <Text style={typography.heading.h4}>{data[field.key]}</Text>
+            <Text style={styles.fieldValue} numberOfLines={1}>
+              {data[field.key] === null || data[field.key] === undefined || data[field.key] === ""
+                ? "—"
+                : String(data[field.key])}
+            </Text>
           </View>
         ))}
       </View>
 
       <View style={styles.image}>
-        <Image
-          source={imageSource}
-          style={styles.imageFile}
-          resizeMode="contain"
-        />
+        <Image source={imageSource} style={styles.imageFile} resizeMode="contain" />
       </View>
     </TouchableOpacity>
   );
 }
 
-
 const styles = StyleSheet.create({
   card: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "#1C1C1C",
-    borderRadius: 12,
-    marginBottom: 16,
-    marginHorizontal: 4,
+    backgroundColor: colours.surfaceRaised,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colours.border,
+    marginBottom: spacing.lg,
+    marginHorizontal: spacing.xs,
     overflow: "hidden",
-    minHeight: 120,
-    maxWidth: "49%"
+    minHeight: 128,
+    maxWidth: "49%",
   },
   info: {
     flex: 1,
-    backgroundColor: "#2C2C2C",
-    padding: 12,
+    padding: spacing.lg,
     justifyContent: "center",
+    rowGap: spacing.sm,
+  },
+  fieldRow: {
+    rowGap: 2,
+  },
+  fieldValue: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: colours.textPrimary,
   },
   image: {
-    flex: 1,
+    width: 104,
     alignItems: "center",
     justifyContent: "center",
-    padding: 8,
+    padding: spacing.md,
+    backgroundColor: colours.surface3,
   },
   imageFile: {
-    width: 80,
-    height: 80,
+    width: 72,
+    height: 72,
   },
 });

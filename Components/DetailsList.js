@@ -1,18 +1,30 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import typography from "../styles/typography";
 
-export default function DetailsList({ data }) {
+import colours from "../styles/colours";
+import typography from "../styles/typography";
+import { spacing, radius, fontSize } from "../styles/tokens";
+
+/**
+ * Label/value rows for a detail screen.
+ *
+ * Values now sit in a flex:1.4 column so long text (addresses, notes) has room
+ * instead of wrapping awkwardly against a 50/50 split, and the final row has
+ * no trailing divider.
+ */
+export default function DetailsList({ data = [] }) {
   return (
     <View style={styles.detailsBox}>
       {data.map((row, index) => (
-        <View key={index} style={styles.row}>
-          <Text style={[typography.text.muted, styles.label]}>
-            {row.label}
-          </Text>
-
-          <Text style={[typography.text.body, styles.value]}>
-            {row.value}
+        <View
+          key={row.label ?? index}
+          style={[styles.row, index === data.length - 1 && styles.lastRow]}
+        >
+          <Text style={[typography.detail.label, styles.label]}>{row.label}</Text>
+          <Text style={styles.value} selectable>
+            {row.value === null || row.value === undefined || row.value === ""
+              ? "—"
+              : String(row.value)}
           </Text>
         </View>
       ))}
@@ -23,25 +35,27 @@ export default function DetailsList({ data }) {
 const styles = StyleSheet.create({
   detailsBox: {
     width: "100%",
-    backgroundColor: "#1c1c1c",
-    borderRadius: 12,
-    padding: 20,
   },
-
   row: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 14,
+    alignItems: "flex-start",
+    columnGap: spacing.lg,
+    paddingVertical: spacing.lg,
     borderBottomWidth: 1,
-    borderBottomColor: "#333",
+    borderBottomColor: colours.border,
   },
-
+  lastRow: {
+    borderBottomWidth: 0,
+  },
   label: {
     flex: 1,
+    paddingTop: 2,
   },
-
   value: {
-    flex: 1,
+    flex: 1.4,
     textAlign: "right",
+    fontSize: fontSize.md,
+    color: colours.textPrimary,
+    lineHeight: 22,
   },
 });

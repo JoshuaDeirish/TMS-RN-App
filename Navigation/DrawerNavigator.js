@@ -1,51 +1,71 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 
-// Import stack navigators
-import DashboardStack from './Stacks/DashboardStack';
-import ClientStack from './Stacks/ClientStack';
-import ContractStack from './Stacks/ContractStack';
-import DocumentStack from './Stacks/DocumentStack';
-import ExpenseLogStack from './Stacks/ExpenseLogStack';
-import FuelLogStack from './Stacks/FuelLogStack';
-import FuelStationStack from './Stacks/FuelStationStack';
-import InvoiceStack from './Stacks/InvoiceStack';
-import LoadStack from './Stacks/LoadStack';
-import LocationStack from './Stacks/LocationStack';
-import MaintenanceRecordStack from './Stacks/MaintenanceRecordStack';
-import MaintenanceStationStack from './Stacks/MaintenanceStationStack';
-import NotificationStack from './Stacks/NotificationStack';
-import ProfileStack from './Stacks/ProfileStack';
-import SettingsStack from './Stacks/SettingsStack';
-import TrailerStack from './Stacks/TrailerStack';
-import TripStack from './Stacks/TripStack';
-import VehicleStack from './Stacks/VehicleStack';
-import WarehouseStack from './Stacks/WarehouseStack';
+import { useAuth } from '../Services/Context/AuthContext';
+import { sectionsForRole } from './navigationConfig';
+import colours from '../styles/colours';
+import { drawerScreenOptions } from '../styles/navigationTheme';
+import { spacing } from '../styles/tokens';
 
 const Drawer = createDrawerNavigator();
 
-export default function DrawerNavigator() {
+/** Drawer body: the normal item list, plus who you are and a way out. */
+function DrawerContent(props) {
+  const { user, role, logout } = useAuth();
+
+  const displayName =
+    [user?.first_name, user?.last_name].filter(Boolean).join(' ') || user?.email || 'Signed in';
+
   return (
-    <Drawer.Navigator initialRouteName="Dashboard">
-      <Drawer.Screen name="Dashboard" component={DashboardStack} />
-      <Drawer.Screen name="Clients" component={ClientStack} />
-      <Drawer.Screen name="Contracts" component={ContractStack} />
-      <Drawer.Screen name="Documents" component={DocumentStack} />
-      <Drawer.Screen name="Expense Logs" component={ExpenseLogStack} />
-      <Drawer.Screen name="Fuel Logs" component={FuelLogStack} />
-      <Drawer.Screen name="Fuel Stations" component={FuelStationStack} />
-      <Drawer.Screen name="Invoices" component={InvoiceStack} />
-      <Drawer.Screen name="Loads" component={LoadStack} />
-      <Drawer.Screen name="Locations" component={LocationStack} />
-      <Drawer.Screen name="Maintenance Records" component={MaintenanceRecordStack} />
-      <Drawer.Screen name="Maintenance Stations" component={MaintenanceStationStack} />
-      <Drawer.Screen name="Notifications" component={NotificationStack} />
-      <Drawer.Screen name="Profile" component={ProfileStack} />
-      <Drawer.Screen name="Settings" component={SettingsStack} />
-      <Drawer.Screen name="Trailers" component={TrailerStack} />
-      <Drawer.Screen name="Trips" component={TripStack} />
-      <Drawer.Screen name="Vehicles" component={VehicleStack} />
-      <Drawer.Screen name="Warehouses" component={WarehouseStack} />
+    <View style={styles.drawerRoot}>
+      <DrawerContentScrollView {...props}>
+        <View style={styles.identity}>
+          <Text style={styles.name} numberOfLines={1}>{displayName}</Text>
+          {role ? <Text style={styles.role}>{role.toUpperCase()}</Text> : null}
+        </View>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
+
+      <TouchableOpacity style={styles.logout} onPress={logout}>
+        <Text style={styles.logoutText}>Log out</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+export default function DrawerNavigator() {
+  const { role } = useAuth();
+  const sections = sectionsForRole(role);
+
+  return (
+    <Drawer.Navigator
+      initialRouteName={sections[0]?.name ?? 'Dashboard'}
+      drawerContent={(props) => <DrawerContent {...props} />}
+      screenOptions={drawerScreenOptions}
+    >
+      {sections.map(({ name, component }) => (
+        <Drawer.Screen key={name} name={name} component={component} />
+      ))}
     </Drawer.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  drawerRoot: { flex: 1 },
+  identity: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: colours.border,
+  },
+  name: { fontSize: 16, fontWeight: '600', color: colours.textPrimary },
+  role: { fontSize: 12, color: colours.textMuted, marginTop: 2, letterSpacing: 1 },
+  logout: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: colours.border,
+  },
+  logoutText: { color: colours.danger, fontWeight: '600' },
+});
